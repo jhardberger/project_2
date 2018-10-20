@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Shelf = require('./shelfModel.js');
+const Album = require('./album.js');
 
 const userSchema = new mongoose.Schema({
 	user: 		{type: String, required: true},

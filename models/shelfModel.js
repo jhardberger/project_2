@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Album = require('./albumModel.js');
+const Album = require('./album.js');
+const User = require('./userModel.js');
 
 const shelfSchema = new mongoose.Schema({
 	createdBy: 	{type: mongoose.Schema.Types.ObjectId, ref: 'User'},
