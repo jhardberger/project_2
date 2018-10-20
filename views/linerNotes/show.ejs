@@ -5,8 +5,19 @@
 </head>
 <body>
 	<header>
-		<h1></h1>
+		<h1>All linerNotes (for now)</h1>
+		<nav>
+			<ul>
+				<li>nav TK</li>
+			</ul>
+		</nav>
 	</header>
+	<main>
+		<h3>by: <%=linerNote.author%></h3>
 
+		<p><%=linerNote.body%></p><br>
+		<p><i>last edited: <%=linerNote.date%> liked by: </i><%=linerNote.liked_by.length%></p>
+
+	</main>
 </body>
 </html>

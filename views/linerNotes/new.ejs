@@ -5,7 +5,26 @@
 </head>
 <body>
 	<header>
-		<h1></h1>
+		<h1>Add LinerNotes</h1>
+		<nav>
+			<ul>
+				<li>nav TK</li>
+			</ul>
+		</nav>
 	</header>
+	<main>
+		<h2>album title</h2>
+		<form action="/linerNotes" method="POST">
+			Author: 
+			<select name="userId">
+				<%users.forEach((elem, i) => {%>
+					<option value="<%=elem.id%>"><%=elem.user%></option>
+				<%}%>
+			</select>
+			<br>
+			<input type="text" name="body">
+			<input type="submit">
+		</form>
+	</main>
 </body>
 </html>

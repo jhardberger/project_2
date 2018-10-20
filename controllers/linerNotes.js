@@ -34,12 +34,12 @@ router.get('/new', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 
 	try {
-		const foundNotes = await LinerNotes.findById(req.params.id);
+		const foundNote = await LinerNotes.findById(req.params.id);
 		const foundUser = await User.findOne({'linerNotes._id': req.params.id});
 		console.log(foundUser);
 		console.log(foundNotes);
 		res.render('linerNotes/show.ejs', {
-			linerNotes: foundUser, 
+			linerNote: foundNote, 
 			author: foundUser
 		});
 	} catch(err){
@@ -127,7 +127,7 @@ router.delete('/:id', async (req, res, next) => {
 	} catch(err){
 		next(err)
 	}
-	
+
 });
 
 														//exports
