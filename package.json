@@ -1,0 +1,27 @@
+{
+  "name": "project_2",
+  "version": "1.0.0",
+  "description": "**RECORD APP** is a lite social media and record cataloguing app that aims to provide for vinyl listeners the services that GoodReads provides book-loving users, LetterBoxd provides for cinephiles, etc. That is to say, the social aspect is secondary to the personal library/curation aspect - the focus is on simple, pleasing designs and artist/album data. Using Discogs API, **RECORD APP** will allow users to: \t-create a private account that will allow them access to a variety of features \t-OR just view album pages with no account.   USER will include the ability to:  \t-curate a digital library of their vinyl collection \t-display favorites, user-made shelves, and recent activity \t-display a \"now spinning\" featured album \t-search for and add records from the Discogs database on an index page where the 4 squares were \t-visit show pages for albums and leave \"liner notes\", i.e. comments, plus see: \t\t-track lists \t\t-pressing info \t\t-picture \t\t-YouTube link(maybe) \t\t-link to discogs marketplace(maybe) \t-visit show pages for artist that will display: \t\t-artist info \t\t-discography",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhardberger/project_2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhardberger/project_2/issues"
+  },
+  "homepage": "https://github.com/jhardberger/project_2#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.3.4",
+    "session": "^0.1.0"
+  }
+}
