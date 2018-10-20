@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Shelf = require('./shelfModel.js');
-const Album = require('./album.js');
+const Shelf = require('./models/shelfModel');
+const Album = require('./models/albums');
 
 const userSchema = new mongoose.Schema({
 	user: 		{type: String, required: true},
@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
 	albums: 	[type: String],
 	shelves: 	[Shelf.schema],
 	notes: 		[Note.schema],
-	spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}
+	spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Albums'}
 });
 
 module.exports = mongoose.model('User', userSchema);

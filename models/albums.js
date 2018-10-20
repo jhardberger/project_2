@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const linerNotes = require('./linerNotes.js');
-const User = require('./userModel.js');
+const linerNotes = require('./models/linerNotes');
+const User = require('./models/userModel');
 
 
 const albumSchema = new mongoose.Schema({

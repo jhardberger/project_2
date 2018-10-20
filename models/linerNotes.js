@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Album = require('./album.js');
+const Album = require('./models/userModel');
 
 const linerNotesSchema = mongoose.Schema({
 	author: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],

@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const session = require('express-session');
+// const session = require('express-session');
 //db
 require('./db/db');
 //controllers
@@ -18,11 +18,11 @@ const db = new Discogs().database();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(methodOverride('_method'));
 
-app.use(session({
-	secret: 'some random secret string',
-	resave: false,
-	saveUninitialized: false
-}));
+// app.use(session({
+// 	secret: 'some random secret string',
+// 	resave: false,
+// 	saveUninitialized: false
+// }));
 
 app.use('/linernotes', linerNotesController);
 

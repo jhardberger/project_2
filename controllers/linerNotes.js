@@ -3,6 +3,7 @@ const router 	 = express.Router();
 														//models
 const LinerNotes = require('../models/linerNotes');
 const Album   	 = require('../models/albums');
+const User 		 = require('../models/userModel');
 														//routes
 //index
 router.get('/', async (req, res, next) => {
