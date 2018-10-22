@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Shelf = require('./shelfModel.js');
+const mongoose 	= require('mongoose');
+const Shelf 	= require('./shelfModel.js');
 
 const userSchema = new mongoose.Schema({
 	user: 		{type: String, required: true},
