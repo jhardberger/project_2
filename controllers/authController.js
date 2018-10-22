@@ -1,9 +1,9 @@
 const express 	= require('express');
 const router 	= express.Router();
 const User 		= require('../models/userModel.js');
-// const Shelf 	= require('../models/shelfModel.js');		// When the time comes
-// const Album 	= require('../models/albumModel.js');		//		'		'
-// const Note 		= require('../models/noteModel.js');	//		'		'
+const Shelf 	= require('../models/shelfModel.js');		// When the time comes
+const Album 	= require('../models/albumModel.js');		//		'		'
+const LinerNote = require('../models/linerNoteModel.js');	//		'		'
 
 // const bcrypt 	= require('bcrypt'); 					// 		'		'
 
@@ -62,6 +62,9 @@ router.get('login', (req, res) => {
 
 // ************************* LOGIN CREATE ROUTE ***************************
 
+router.post('/login', (req, res) => {
+	
+})
 
 
 

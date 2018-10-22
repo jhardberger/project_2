@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1>Edit LinerNotes</h1>
+		<nav>
+			<ul>
+				<li>nav TK</li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<form action="/linerNotes/<%=linerNotes.id%>?_method=PUT" method="POST">
+			<select name="userId">
+				<%users.forEach((elem, i) => {%>
+					<option value="<%=elem.id%>"
+						<%if(elem._id.toString() === user._id.toString()){%>
+							selected
+						<%}%>
+					>elem.user</option>	
+				<%}%>
+			</select>
+			<br>
+			<input type="text" name="body" value="<%=linerNote.body%>">
+			<br>
+			<input type="submit" value="update">
+		</form>
+	</main>
+</body>
+</html>

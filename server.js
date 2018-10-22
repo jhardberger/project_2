@@ -21,9 +21,9 @@ const methodOverride 	= require('method-override');
 
 const userController 	= require('./controllers/userController.js');
 const shelfController 	= require('./controllers/shelfController.js');
-// const albumController 	= require('./controllers/albumController.js');
-// const noteController 	= require('./controllers/noteController.js');
+const albumController 	= require('./controllers/albumController.js');
 const authController	= require('./controllers/authController.js');
+const linerNoteController 	= require('./controllers/linerNoteController.js');
 
 
 // ************************* Use MiddleWare **************************
@@ -42,24 +42,13 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 
 app.use('/users', userController);
 app.use('/shelves', shelfController);
-// app.use('/albums', albumController);
-// app.use('/notes', noteController);
+app.use('/albums', albumController);
+app.use('/linernotes', linerNoteController);
 app.use('/auth', authController);
 
 
-// ************************* Retrieve Data Test **************************
-
-app.get('/home', (req, res) => {
-
-    db.getRelease(81013, function(err, data){
-        res.render('home.ejs');
-        // res.send(data);
-        console.log(`-------------------------- DATA --------------------------\n`,data);
-    });
-});
-
-
 // ************************* PORT SETUP **************************
+
 
 app.listen(3000, () => {
     console.log(`Listening on port: ${PORT}`);
