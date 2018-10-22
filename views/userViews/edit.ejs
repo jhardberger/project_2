@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<nav>
-		<a href="/auth/login">Login</a>
-		| <a href="/auth/register">Register</a>
-		| <a href="/auth/logout">Logout</a>
-		| <a href="/users">All Users</a>
-	</nav>
-
+  <% include ../partials/header.ejs %>
 
 	<h1>Username: <%=user.username%></h1>
 
@@ -42,19 +30,22 @@
 
 	<fieldset>
 		<form>
-			Albums: <ul> <% user.albums.forEach((oneUserAlbum) => { %>
-						<li>
-							Album Title: "..."<%=oneUserAlbum.title%> | 
-							<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
-							<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
-								<button type="submit">Delete Album</button>
-							</form>
-						</li>
-						<% }) %>
-					</ul>
+			Albums: 
+				<ul> <% user.albums.forEach(oneUserAlbum => { %>
+					<li>
+						Album Title: "..."<%=oneUserAlbum.title%> | 
+						<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
+						<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
+							<button type="submit">Delete Album</button>
+						</form>
+					</li>
+					<% }) %>
+				</ul>
 			<br>
 			Shelves: <a href="/shelves/new">Create Shelf</a>
-				<ul> <% user.shelves.forEach((oneUserShelf) => { %>
+				<ul>
+					<% user.shelves.forEach(oneUserShelf => {
+						if (oneUserShelf != null){%>
 						<li>
 							Shelf Title: "..."<%=oneUserShelf.title%> | 
 							<a href="/shelves/<%=oneUserShelf.id%>/edit">Edit Shelf</a> | 
@@ -62,8 +53,8 @@
 								<button type="submit">Delete Shelf</button>
 							</form>
 						</li>
-						<% }) %>
-					
+						<% } %>
+					<% }) %>
 				</ul>
 			Liner Notes: <input type="text" name="linerNotes" value="<%=user.linerNotes%>"><br>
 			Now Spinning: <input type="text" name="spinning" value=""><br><br>

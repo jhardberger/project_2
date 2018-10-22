@@ -1,0 +1,10 @@
+  <% include ../partials/header.ejs %>
+
+	<h2>Shelves</h2>
+	<ul> 
+		<% allShelves.forEach((elem, i) => { %>
+			<li><a href="/shelves/<%=elem.id%>"><i><%=elem.title%></i>, <%=elem.created_by%></a></li>
+		<%})%>
+	</ul>
+</body>
+</html>

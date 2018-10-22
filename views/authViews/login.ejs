@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<nav>
-		<a href="/home">Home</a>
-		<a href="/auth/logout">Logout</a>
-	</nav><br>
+  <% include ../partials/header.ejs %>
 
 	Not a member? Register <a href="/auth/register">here</a>.
 
 	<h1>Log In</h1>
 
-	<form action="/auth/login" method="POST">
-		Username: <input type="text" name="username"><br>
-		Password: <input type="password" name="password"><br>
-		<button type="submit">Log In</button>
-	</form>	
+	<fieldset>
+		<legend>User Login: </legend>
+		<form action="/auth/login" method="POST">
+			<br>
+			Username: <input type="text" name="username"><br><br>
+			Password: <input type="password" name="password"><br><br>
+			<button type="submit">Log In</button>
+		</form>	
+	</fieldset>
 
 </body>
 </html>

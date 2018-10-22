@@ -4,7 +4,7 @@ const User 		= require('../models/userModel');
 
 const shelfSchema = new mongoose.Schema({
 	title: 		{type: String, required: true},
-	createdBy: 	{type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+	created_by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 	albums: 	[{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}],
 	liked_by: 	[{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 	updated: 	Date

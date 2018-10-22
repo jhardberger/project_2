@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
 	albums: 	[{type: String}],
 	shelves: 	[Shelf.schema],
 	linerNotes: [LinerNote.schema],
-	// spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}
+	spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}
 
 });
 

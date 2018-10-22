@@ -2,6 +2,7 @@ const express 	= require('express');
 const app 		= express();
 const PORT 		= 3000;
 const session 	= require('express-session');
+require('./db/db')
 
 require('./db/db')
 
@@ -11,6 +12,15 @@ require('./db/db')
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
 const discogsDb 	= new Discogs().database();
+
+
+//test 
+
+// db.getRelease(176126, (err, data) => {
+// 	console.log('---------------------------start data------------------------');
+// 	console.log(data);
+// 	console.log('---------------------------end   data------------------------');
+// });
 
 
 // ************************* Require MiddleWare **************************
