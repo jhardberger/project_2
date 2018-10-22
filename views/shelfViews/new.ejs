@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<nav>
+		<a href="/auth/login">Login</a>
+		| <a href="/auth/register">Register</a>
+		| <a href="/auth/logout">Logout</a>
+		| <a href="/users">All Users</a>
+	</nav>
+
+	<h1>Username: <%=user.username%></h1>
+
+	<fieldset>
+		<legend>New Shelf: </legend>
+		Title: <input type="text" name="shelfTitle"><br>
+		Albums: 
+		<ul> 
+			<% allAlbums.forEach(oneAlbum => { %>
+				<div>
+					<input type="checkbox" id="<%=oneAlbum%>CheckBox" name="album" value="<%=oneAlbum.id%>">
+					<label for="<%=oneAlbum%>CheckBox">Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%></label>
+				</div>
+			<% }) %>
+		</ul>
+	</fieldset>
+
+	<ul>
+		<li>Genres: 
+			<ul>
+				<% user.genres.forEach(oneGenre => { %>
+					<li><%=oneGenre%></li>
+				<% }) %>
+			</ul>
+		</li><br>
+		<li>Bio: 		<%=user.bio%></li><br>
+		<li>Albums: 	<%=user.albums%></li><br>
+		<li>Shelves: 	<%=user.shelves%></li><br>
+		<li>Liner Notes: <%=user.linerNotes%></li><br>
+		<li>Now Spinning: <%=user.spinning%></li><br>
+	</ul>
+
+</body>
+</html>

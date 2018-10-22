@@ -16,7 +16,13 @@
 	<a href="http://localhost:3000/users/<%=user._id%>/edit">Edit Profile</a>
 
 	<ul>
-		<li>Genres: 	<%=user.genres%></li><br>
+		<li>Genres: 
+			<ul>
+				<% user.genres.forEach(oneGenre => { %>
+					<li><%=oneGenre%></li>
+				<% }) %>
+			</ul>
+		</li><br>
 		<li>Bio: 		<%=user.bio%></li><br>
 		<li>Albums: 	<%=user.albums%></li><br>
 		<li>Shelves: 	<%=user.shelves%></li><br>

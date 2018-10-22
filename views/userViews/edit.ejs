@@ -33,15 +33,45 @@
 				</div>
 			<% }) %>
 
-			Bio: <input type="text" name="bio" value="<%=user.bio%>"><br>
-			Albums: <input type="text" name="albums" value="<%=user.albums%>"><br>
-			Shelves: <input type="text" name="shelves" value="<%=user.shelves%>"><br>
+			Bio: <input type="text" name="bio" value="<%=user.bio%>"><br><br>
+
+			<button type="submit">Submit User Changes</button>
+		</form>
+	</fieldset>
+	<br>
+
+	<fieldset>
+		<form>
+			Albums: <ul> <% user.albums.forEach((oneUserAlbum) => { %>
+						<li>
+							Album Title: "..."<%=oneUserAlbum.title%> | 
+							<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
+							<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
+								<button type="submit">Delete Album</button>
+							</form>
+						</li>
+						<% }) %>
+					</ul>
+			<br>
+			Shelves: <a href="/shelves/new">Create Shelf</a>
+				<ul> <% user.shelves.forEach((oneUserShelf) => { %>
+						<li>
+							Shelf Title: "..."<%=oneUserShelf.title%> | 
+							<a href="/shelves/<%=oneUserShelf.id%>/edit">Edit Shelf</a> | 
+							<form action="/shelves/<%=oneUserShelf.id%>?_method=DELETE" method="POST">
+								<button type="submit">Delete Shelf</button>
+							</form>
+						</li>
+						<% }) %>
+					
+				</ul>
 			Liner Notes: <input type="text" name="linerNotes" value="<%=user.linerNotes%>"><br>
 			Now Spinning: <input type="text" name="spinning" value=""><br><br>
+
 			<button type="submit">Submit changes</button>
 		</form>
-		
 	</fieldset>
+
 
 	<br>
 	<br>

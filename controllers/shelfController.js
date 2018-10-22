@@ -1,7 +1,7 @@
 const express 	= require('express');
 const router 	= express.Router();
 const Shelf 	= require('../models/shelfModel.js');
-// const Album 	= require('../models/albumModel.js');
+const Album 	= require('../models/albumModel.js');
 
 
 /**************************************************************************************
@@ -45,11 +45,11 @@ router.get('/new', async(req, res, next) => {
 	    const users  = await User.find({});
 
 	    // Make albums available (as checkboxes) to add them to shelf ?
-	    // const albums = await Album.find({});
+	    const allAlbums = await Album.find({});
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	users: users,
-	    	// albums: albums
+	    	allAlbums
 
 	    })
 	} catch(err){
