@@ -3,12 +3,14 @@ const app 		= express();
 const PORT 		= 3000;
 const session 	= require('express-session');
 
+require('./db/db')
+
 
 // ************************* Discogs Module/Database **************************
 
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
-const db 			= new Discogs().database();
+const discogsDb 	= new Discogs().database();
 
 
 // ************************* Require MiddleWare **************************
@@ -45,6 +47,15 @@ app.use('/shelves', shelfController);
 app.use('/albums', albumController);
 app.use('/linernotes', linerNoteController);
 app.use('/auth', authController);
+
+
+app.get('/home', (req, res) => {
+	discogsDb.getRelease(56046, (err, data) => {
+		// console.log(data);
+		res.render('homepage.ejs')
+	})
+})
+
 
 
 // ************************* PORT SETUP **************************
