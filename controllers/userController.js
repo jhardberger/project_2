@@ -16,6 +16,7 @@ const LinerNote = require('../models/linerNoteModel.js');
 router.get('/', async(req, res, next) => {
 	try {
 	    const allUsers = await User.find({});
+	    console.log(`-------------------- All Users --------------------\n`, allUsers);
 	    res.render('../views/userViews/index.ejs', {
 	    	users: allUsers
 	    })
@@ -54,7 +55,7 @@ router.get('/:id/edit', async(req, res, next) => {
 	try {
 		if (req.session.logged) {								// If user logged on, lead to user's edit page
 		    const user = await User.findById(req.params.id);
-		    res.render('../views/userViews/edit.js', {
+		    res.render('../views/userViews/edit.ejs', {
 		    	user: user
 		    })
 
@@ -83,7 +84,7 @@ router.post('/', async(req, res, next) => {
 router.put('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findByIdAndUpdate(req.params.id, req.body);
-	    res.redirect('/' + req.params.id);
+	    res.redirect('/users/' + req.params.id);
 	} catch(err){
 	    next(err);
 	}
@@ -102,24 +103,25 @@ router.delete('/:id', async(req, res, next) => {
 		/* ---------- Delete Shelves ---------- */
 
 		// Find Shelves Ids(through id of those belonging to user) and add them to above array
-		for (let i = 0; i < user.shelves.length; i++){
-			shelvesIds.push(user.shelves[i].id);
-		}
+		// for (let i = 0; i < user.shelves.length; i++){
+		// 	shelvesIds.push(user.shelves[i].id);
+		// }
 		// Delete Shelves in User from Shelves collection
-		const deletedShelves = await Shelf.deleteMany({_id: {$in: shelvesIds}});
+		// const deletedShelves = await Shelf.deleteMany({_id: {$in: shelvesIds}});
 
 		/* ---------- Delete Notes ---------- */
 
 		// Find Notes Ids(through id of those belonging to user) and add them to above array
-		for (let i = 0; i < user.notes.length; i++){
-			notesIds.push(user.notes[i].id);
-		}
+		// for (let i = 0; i < user.notes.length; i++){
+		// 	notesIds.push(user.notes[i].id);
+		// }
 		// Delete Notes in User from Notes collection
-		const deletedNotes = await Note.deleteMany({_id: {$in: notesIds}});
+		// const deletedNotes = await Note.deleteMany({_id: {$in: notesIds}});
 
 		/* ---------- Delete User ---------- */
 
 		await user.delete();
+		res.redirect('/users');
 
 	} catch(err){
 	    next(err);

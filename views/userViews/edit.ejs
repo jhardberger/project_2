@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<nav>
+		<a href="/auth/login">Login</a>
+		| <a href="/auth/register">Register</a>
+		| <a href="/auth/logout">Logout</a>
+		| <a href="/users">All Users</a>
+	</nav>
+
+
+	<h1>Username: <%=user.username%></h1>
+
+	<fieldset>
+		<legend>Edit User Info: </legend>
+		
+		<form action="/users/<%=user.id%>?_method=PUT" method="POST">
+			Username: <input type="text" name="username" value="<%=user.username%>"><br>
+			Password: <input type="password" name="password" value="<%=user.password%>"><br>
+
+			Genres: 
+				<div>
+					<input type="checkbox" id="rockCheckBox" name="genre" value="Rock">
+					<label for="rockCheckBox">Rock</label>
+				</div>
+				<div>
+					<input type="checkbox" id="popCheckBox" name="genre" value="Pop">
+					<label for="popCheckBox">Pop</label>
+				</div>
+				<div>
+					<input type="checkbox" id="edmCheckBox" name="genre" value="EDM">
+					<label for="edmCheckBox">EDM</label>
+				</div>
+				<div>
+					<input type="checkbox" id="classicalCheckBox" name="genre" value="Classical">
+					<label for="classicalCheckBox">Classical</label>
+				</div>
+				<div>
+					<input type="checkbox" id="metalCheckBox" name="genre" value="Metal">
+					<label for="metalCheckBox">Metal</label>
+				</div>
+			<input type="text" name="username" value="<%=user.genres%>"><br>
+
+			Bio: <input type="text" name="bio" value="<%=user.bio%>"><br>
+			Albums: <input type="text" name="albums" value="<%=user.albums%>"><br>
+			Shelves: <input type="text" name="shelves" value="<%=user.shelves%>"><br>
+			Liner Notes: <input type="text" name="linerNotes" value="<%=user.linerNotes%>"><br>
+			Now Spinning: <input type="text" name="spinning" value=""><br><br>
+			<button type="submit">Submit changes</button>
+		</form>
+		
+	</fieldset>
+
+	<br>
+	<br>
+	<form action="/users/<%=user.id%>?_method=DELETE" method="POST">
+		<button type="submit">Delete <%=user.username%></button>
+	</form>
+
+</body>
+</html>

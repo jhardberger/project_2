@@ -5,11 +5,11 @@ const connectionString = 'mongodb://localhost/waxxy';
 mongoose.connect(connectionString, { useNewUrlParser: true});
 
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected at ', connectionString);
+  console.log('Mongoose connected at: ', connectionString);
 });
 
 mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected ');
+  console.log('Mongoose disconnected.');
 });
 
 mongoose.connection.on('error', (err) => {

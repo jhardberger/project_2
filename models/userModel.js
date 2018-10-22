@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const Shelf = require('../models/shelfModel');
-const Album = require('../models/albumModel');
+const mongoose 	= require('mongoose');
+const Shelf 	= require('../models/shelfModel');
+const Album 	= require('../models/albumModel');
 const LinerNote = require('../models/linerNoteModel');
 
 const userSchema = new mongoose.Schema({

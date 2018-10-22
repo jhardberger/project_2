@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<nav>
+		<a href="/auth/login">Login</a>
+		| <a href="/auth/register">Register</a>
+		| <a href="/auth/logout">Logout</a>
+		| <a href="/users">All Users</a>
+	</nav>
+
+	<h1>Username: <%=user.username%></h1>
+
+	<a href="http://localhost:3000/users/<%=user._id%>/edit">Edit Profile</a>
+
+	<ul>
+		<li>Genres: 	<%=user.genres%></li><br>
+		<li>Bio: 		<%=user.bio%></li><br>
+		<li>Albums: 	<%=user.albums%></li><br>
+		<li>Shelves: 	<%=user.shelves%></li><br>
+		<li>Liner Notes: <%=user.linerNotes%></li><br>
+		<li>Now Spinning: <%=user.spinning%></li><br>
+	</ul>
+
+</body>
+</html>

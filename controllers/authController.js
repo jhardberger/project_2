@@ -7,12 +7,15 @@ const LinerNote = require('../models/linerNoteModel.js');	//		'		'
 
 // const bcrypt 	= require('bcrypt'); 					// 		'		'
 
+// ************************* Declare Genres **************************
+const genres = ['Rock', 'Pop', 'EDM', 'Classical', 'Metal'];
+
 
 // ************************* REGISTER 'INDEX' ROUTE **************************
 
 router.get('/register', (req, res) => {
 	// console.log(`-------------------- req.session REGISTER --------------------\n`, req.session);
-	res.render('authViews/register.ejs');
+	res.render('authViews/register.ejs', {genres});
 });
 
 
@@ -29,10 +32,12 @@ router.post('/register', async (req, res, next) => {
 			// const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 		    // Create object {} for database entry
-		    const userDbEntry = {};
-		    userDbEntry.username = req.body.username;
-		    userDbEntry.password = password;
+		    const userDbEntry 		= {};
 
+		    userDbEntry.username 	= req.body.username;
+		    userDbEntry.bio 		= req.body.bio;
+
+		    userDbEntry.password 	= password;
 		    // userDbEntry.password = passwordHash;
 
 		    // Put password into database
@@ -74,7 +79,7 @@ router.post('/login', async(req, res, next) => {
 
 		    req.session.username = req.body.username;
 		    req.session.logged   = true;
-		    res.redirect('/home');
+		    res.redirect('/users/' + user[0]._id);
 			console.log(`-------------------- User Entry --------------------\n`, req.session);
 
 	    } else {

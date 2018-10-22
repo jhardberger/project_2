@@ -5,11 +5,43 @@
 </head>
 <body>
 
+	<nav>
+		<a href="/auth/login">Login</a>
+		| <a href="/auth/register">Register</a>
+		| <a href="/auth/logout">Logout</a>
+		| <a href="/users">All Users</a>
+	</nav>
+
+
+	Already a member? Login <a href="/auth/login">here</a>.
+
 	<h1>Register</h1>
 
 	<form action="/auth/register" method="POST">
-		Username: <input type="text" name="username"><br>
-		Password: <input type="password" name="password"><br>
+		<fieldset>
+			<legend>User Details: </legend>
+			Username: <input type="text" name="username"><br><br>
+			Password: <input type="password" name="password"><br>
+		</fieldset>
+		<br>
+		
+		<fieldset>
+			<legend>Tell others a bit about yourself...</legend>
+			<textarea type="text" name="bio" placeholder="User bio"></textarea>
+		</fieldset>
+		<br>
+
+		<fieldset>
+			<legend>What genre(s) are you interested in?</legend>
+			<% genres.forEach((elem, i) => { %>
+				<div>
+					<input type="checkbox" id="<%=genres[i]%>CheckBox" name="genre" value="<%=genres[i]%>">
+					<label for="<%=genres[i]%>CheckBox"><%=genres[i]%></label>
+				</div>
+			<% }) %>
+		</fieldset>
+		<br>
+
 		<button type="submit">Register</button>
 	</form>
 
