@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1>Edit album:</h1>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/albums/index">Album Index</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<h2>Add to Shelves</h2>
+		something will happen here re: adding to shelves, favoriting, etc. 
+		<form method="POST" action="/albums/<%=album.id%>/?_method=PUT">
+			<input type="submit">	
+		</form>
+	</main>
+</body>
+</html>

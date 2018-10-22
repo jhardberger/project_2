@@ -9,8 +9,10 @@ const User 		 = require('../models/userModel');
 router.get('/', async (req, res, next) => {
 
 	try {
-		const foundNotes = await LinerNotes.find();
-		res.render('linerNotesViews/index.ejs')
+		const allNotes = await linerNotes.find({});
+		res.render('linerNotesViews/index.ejs', {
+			linerNotes: allNotes
+		});
 	} catch(err){
 		next(err)
 	}	
@@ -20,11 +22,7 @@ router.get('/', async (req, res, next) => {
 router.get('/new', async (req, res, next) => {
 
 	try {
-		const allUsers = await User.find();
-		res.render('linerNotesViews/new.ejs', {
-			users: allUsers
-		});
-										//need a way to find and pass thru current user
+		res.render('linerNotesViews/new.ejs')
 	} catch(err){
 		next(err)
 	}

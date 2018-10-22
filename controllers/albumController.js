@@ -4,24 +4,39 @@ const router 	 = express.Router();
 const Album   	 = require('../models/albumModel');
 const LinerNotes = require('../models/linerNoteModel');
 const user 		 = require('../models/userModel');
+														//discogs
+const disconnect 	= require('disconnect');
+const Discogs 		= require('disconnect').Client;
+const db 			= new Discogs().database();
+
+
+
+/**--------------------TEST AREA FOR NOW----------------------**/
+
+
 														//routes
 //index
 router.get('/', async (req, res, next) => {
 	
 	try {
-
+		const allAlbums = await Album.find();
+		res.render('albumViews/index.ejs', {
+			albums: allAlbums
+		});
 	} catch(err){
 		next(err)
-	}
+	}	
 });
 
 //new
 router.get('/new', async (req, res, next) => {
 	
 	try {
-		const allAlbums = await Album.find();
-		res.render('albumViews/new.ejs', {
-			albums: allAlbums
+		const data = db.getRelease(17265, (err, data) => {
+			console.log(data);
+			res.render('albumViews/new.ejs', {
+				album: data
+			});
 		});
 	} catch(err){
 		next(err)
