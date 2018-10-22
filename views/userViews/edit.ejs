@@ -22,9 +22,13 @@
 			Password: <input type="password" name="password" value="<%=user.password%>"><br>
 
 			Genres: 
-			<% allGenres.forEach((elem, i) => { %>
+			<% allGenres.forEach((oneGenre, i) => { %>
 				<div>
-					<input type="checkbox" id="<%=allGenres[i]%>CheckBox" name="genres" value="<%=allGenres[i]%>">
+					<input type="checkbox" id="<%=allGenres[i]%>CheckBox" name="genres" value="<%=allGenres[i]%>"
+					<% if(user.genres.find(oneUserGenre => oneUserGenre == oneGenre) != undefined) {%>
+					checked
+					<%}%>
+					>
 					<label for="<%=allGenres[i]%>CheckBox"><%=allGenres[i]%></label>
 				</div>
 			<% }) %>
