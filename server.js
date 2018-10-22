@@ -1,7 +1,7 @@
 const express 	= require('express');
 const app 		= express();
 const PORT 		= 3000;
-const session 	= require('session');
+const session 	= require('express-session');
 
 
 // ************************* Discogs Module/Database **************************
@@ -21,8 +21,8 @@ const methodOverride 	= require('method-override');
 
 const userController 	= require('./controllers/userController.js');
 const shelfController 	= require('./controllers/shelfController.js');
-const albumController 	= require('./controllers/albumController.js');
-const noteController 	= require('./controllers/noteController.js');
+// const albumController 	= require('./controllers/albumController.js');
+// const noteController 	= require('./controllers/noteController.js');
 const authController	= require('./controllers/authController.js');
 
 
@@ -42,18 +42,19 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 
 app.use('/users', userController);
 app.use('/shelves', shelfController);
-app.use('/albums', albumController);
-app.use('/notes', noteController);
+// app.use('/albums', albumController);
+// app.use('/notes', noteController);
 app.use('/auth', authController);
 
 
 // ************************* Retrieve Data Test **************************
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
 
     db.getRelease(81013, function(err, data){
-        res.send(data);
-        // console.log(`-------------------------- DATA --------------------------\n`,data);
+        res.render('home.ejs');
+        // res.send(data);
+        console.log(`-------------------------- DATA --------------------------\n`,data);
     });
 });
 

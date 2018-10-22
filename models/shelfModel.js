@@ -1,5 +1,5 @@
 const mongoose 	= require('mongoose');
-const Album 	= require('./albumModel.js');
+// const Album 	= require('./albumModel.js');
 
 const shelfSchema = new mongoose.Schema({
 	title: 		{type: String, required: true},

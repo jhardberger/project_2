@@ -1,9 +1,9 @@
 const express 	= require('express');
 const router 	= express.Router();
-const User 		= require('./models/userModel.js');
-const Shelf 	= require('./models/shelfModel.js');
-const Album 	= require('./models/albumModel.js');
-const Note 		= require('./models/noteModel.js');
+const User 		= require('../models/userModel.js');
+const Shelf 	= require('../models/shelfModel.js');
+// const Album 	= require('../models/albumModel.js');
+// const Note 		= require('../models/noteModel.js');
 
 
 /**************************************************************************************

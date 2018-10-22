@@ -1,7 +1,7 @@
 const express 	= require('express');
 const router 	= express.Router();
 const Shelf 	= require('../models/shelfModel.js');
-const Album 	= require('../models/albumModel.js');
+// const Album 	= require('../models/albumModel.js');
 
 
 /**************************************************************************************
@@ -45,11 +45,11 @@ router.get('/new', async(req, res, next) => {
 	    const users  = await User.find({});
 
 	    // Make albums available (as checkboxes) to add them to shelf ?
-	    const albums = await Album.find({});
+	    // const albums = await Album.find({});
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	users: users,
-	    	albums: albums
+	    	// albums: albums
 
 	    })
 	} catch(err){
@@ -60,7 +60,7 @@ router.get('/new', async(req, res, next) => {
 
 // ************************* SHELF EDIT ROUTE *************************** 
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', async(req, res, next) => {
 	try {
 
 	    const shelf = await Shelf.findById(req.params.id);
@@ -143,7 +143,7 @@ router.put('/:id', async(req, res, next) => {
 
 // ************************* SHELF DESTROY ROUTE *************************
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async(req, res, next) => {
 	try {
 		// Destroy Shelf
 	    const shelf = await Shelf.findByIdAndRemove(req.params.id);
