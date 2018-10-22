@@ -16,33 +16,18 @@
 
 	<fieldset>
 		<legend>Edit User Info: </legend>
-		
+
 		<form action="/users/<%=user.id%>?_method=PUT" method="POST">
 			Username: <input type="text" name="username" value="<%=user.username%>"><br>
 			Password: <input type="password" name="password" value="<%=user.password%>"><br>
 
 			Genres: 
+			<% allGenres.forEach((elem, i) => { %>
 				<div>
-					<input type="checkbox" id="rockCheckBox" name="genre" value="Rock">
-					<label for="rockCheckBox">Rock</label>
+					<input type="checkbox" id="<%=allGenres[i]%>CheckBox" name="genres" value="<%=allGenres[i]%>">
+					<label for="<%=allGenres[i]%>CheckBox"><%=allGenres[i]%></label>
 				</div>
-				<div>
-					<input type="checkbox" id="popCheckBox" name="genre" value="Pop">
-					<label for="popCheckBox">Pop</label>
-				</div>
-				<div>
-					<input type="checkbox" id="edmCheckBox" name="genre" value="EDM">
-					<label for="edmCheckBox">EDM</label>
-				</div>
-				<div>
-					<input type="checkbox" id="classicalCheckBox" name="genre" value="Classical">
-					<label for="classicalCheckBox">Classical</label>
-				</div>
-				<div>
-					<input type="checkbox" id="metalCheckBox" name="genre" value="Metal">
-					<label for="metalCheckBox">Metal</label>
-				</div>
-			<input type="text" name="username" value="<%=user.genres%>"><br>
+			<% }) %>
 
 			Bio: <input type="text" name="bio" value="<%=user.bio%>"><br>
 			Albums: <input type="text" name="albums" value="<%=user.albums%>"><br>

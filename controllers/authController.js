@@ -36,6 +36,8 @@ router.post('/register', async (req, res, next) => {
 
 		    userDbEntry.username 	= req.body.username;
 		    userDbEntry.bio 		= req.body.bio;
+		    console.log(`-------------------- req.body register --------------------\n`, req.body);
+		    userDbEntry.genres 		= req.body.genres
 
 		    userDbEntry.password 	= password;
 		    // userDbEntry.password = passwordHash;

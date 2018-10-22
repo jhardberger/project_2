@@ -5,6 +5,8 @@ const Shelf 	= require('../models/shelfModel.js');
 const Album 	= require('../models/albumModel.js');
 const LinerNote = require('../models/linerNoteModel.js');
 
+// ************************* Declare Genres **************************
+const genres = ['Rock', 'Pop', 'EDM', 'Classical', 'Metal'];
 
 /**************************************************************************************
  *********************************** RESTFUL ROUTES *********************************** 
@@ -56,7 +58,8 @@ router.get('/:id/edit', async(req, res, next) => {
 		if (req.session.logged) {								// If user logged on, lead to user's edit page
 		    const user = await User.findById(req.params.id);
 		    res.render('../views/userViews/edit.ejs', {
-		    	user: user
+		    	user: user,
+		    	allGenres: genres
 		    })
 
 		} else {												// If not lead to auth/login page
