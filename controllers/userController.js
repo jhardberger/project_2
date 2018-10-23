@@ -58,10 +58,12 @@ router.get('/new', (req, res) => {
 
 // User can access this route only if logged on (user _id will be kept in session?)
 // Route can only be accessed through link on "My Profile" (which is their own show page)
-router.get('/:id/edit', async(req, res, next) => {		
+router.get('/:id/edit', async(req, res, next) => {	
+
+    const user = await User.findById(req.params.id);
+
 	try {
-		if (req.session.logged) {								// If user logged on, lead to user's edit page
-		    const user = await User.findById(req.params.id);
+		if (req.session.logged && req.session.username === user.username) {		// If CORRECT user logged on, lead to user's edit page
 		    res.render('../views/userViews/edit.ejs', {
 		    	user: user,
 		    	allGenres: genres
@@ -111,11 +113,11 @@ router.delete('/:id', async(req, res, next) => {
 		/* ---------- Delete Shelves ---------- */
 
 		// Find Shelves Ids(through id of those belonging to user) and add them to above array
-		// for (let i = 0; i < user.shelves.length; i++){
-		// 	shelvesIds.push(user.shelves[i].id);
-		// }
+		for (let i = 0; i < user.shelves.length; i++){
+			shelvesIds.push(user.shelves[i].id);
+		}
 		// Delete Shelves in User from Shelves collection
-		// const deletedShelves = await Shelf.deleteMany({_id: {$in: shelvesIds}});
+		const deletedShelves = await Shelf.deleteMany({_id: {$in: shelvesIds}});
 
 		/* ---------- Delete Notes ---------- */
 
