@@ -19,7 +19,7 @@ const db 			= new Discogs().database();
 router.get('/', async (req, res, next) => {
 	
 	try {
-		const allAlbums = await Album.find();
+		const allAlbums = await Album.find({});
 		res.render('albumViews/index.ejs', {
 			albums: allAlbums
 		});
@@ -32,8 +32,8 @@ router.get('/', async (req, res, next) => {
 router.get('/new', async (req, res, next) => {
 	
 	try {
-		const data = db.getRelease(17265, (err, data) => {
-			console.log(data);
+		const data = db.getRelease(7027316, (err, data) => {
+			// console.log(data);
 			res.render('albumViews/new.ejs', {
 				album: data
 			});
@@ -74,9 +74,9 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		const createdAlbum = await Album.create(req.body, () => {
-			res.redirect('/albums'); 					//probably want to send this somewhere else
-		});
+		const createdAlbum = await Album.create(req.body);
+		console.log(createdAlbum);
+		res.redirect('/albums'); 						//probably want to send this somewhere else
 		// const foundUser = await User.findById(req.body.userId);
 		// foundUser.library.push(createdAlbum)			//NOTE: fix later/work out methodology
 		//	foundUser.save(af)
@@ -104,7 +104,7 @@ router.delete('/:id', async (req, res, next) => {
 
 	try {
 		const deletedAlbum = await Album.findByIdAndRemove(req.params.id, () => {
-			res.redirect('/album')
+			res.redirect('/albums')
 		});
 		// const foundUser = await User.findOne({'albums._id': req.params.id});
 		// foundUser.albums.id(req.params.id).remove();

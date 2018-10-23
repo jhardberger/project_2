@@ -10,13 +10,14 @@
 		<nav>
 			<ul>
 				<li><a href="/">Home</a></li>
-				<li><a href="/albums/index">Album Index</a></li>
+				<li><a href="/albums/">Album Index</a></li>
 			</ul>
 		</nav>
 	</header>
 	<main>
-		<img src="<%=album.cover%>">
-		Released: <%=album.year%><br>
+	<form action="/albums/<%=album.id%>%>/edit">
+		<input type="submit" value="edit">		
+	</form>
 	</main>
 </body>
 </html>

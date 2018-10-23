@@ -12,15 +12,6 @@ const Discogs 		= require('disconnect').Client;
 const db 			= new Discogs().database();
 
 
-//test 
-
-// db.getRelease(176126, (err, data) => {
-// 	console.log('---------------------------start data------------------------');
-// 	console.log(data);
-// 	console.log('---------------------------end   data------------------------');
-// });
-
-
 // ************************* Require MiddleWare **************************
 
 const bodyParser 		= require('body-parser');
