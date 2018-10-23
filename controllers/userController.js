@@ -17,6 +17,11 @@ const genres = ['Rock', 'Pop', 'EDM', 'Classical', 'Metal'];
 
 router.get('/', async(req, res, next) => {
 	try {
+		// await User.deleteMany();
+		// await Shelf.deleteMany();
+		// await Album.deleteMany();
+		// await LinerNote.deleteMany();
+
 	    const allUsers = await User.find({});
 	    console.log(`-------------------- All Users --------------------\n`, allUsers);
 	    res.render('../views/userViews/index.ejs', {

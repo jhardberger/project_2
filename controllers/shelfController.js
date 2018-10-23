@@ -15,8 +15,13 @@ const User 		= require('../models/userModel.js');
 router.get('/', async(req, res, next) => {
 	try {
 	    const allShelves = await Shelf.find({});
+
+	    const users = await User.find({});
+
 	    res.render('../views/shelfViews/index.ejs', {
-	    	allShelves
+	    	allShelves,
+	    	users
+
 	    })
 	} catch(err){
 	    next(err);
@@ -59,9 +64,9 @@ router.get('/:id', async(req, res, next) => {
 
 	    // const albumsInShelf = await Album.find
 
-	    console.log(`---------- shelf ----------\n`, shelf);
-	    console.log(`---------- shelf.created_by ----------\n`, shelf.created_by);
-	    console.log(`---------- shelf.albums ----------\n`, shelf.albums);
+	    console.log(`-------------------- shelf --------------------\n`, shelf);
+	    console.log(`-------------------- shelf.created_by --------------------\n`, shelf.created_by);
+	    console.log(`-------------------- shelf.albums --------------------\n`, shelf.albums);
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
@@ -120,9 +125,14 @@ router.post('/', async(req, res, next) => {
 				$in: req.body.albums
 			}
 		});
-		// Add checked albums
+		// Add checked albums to shelf
 		albumsToShelf.forEach(album => {
 			shelfToCreate.albums.push(album);
+		});
+
+		// Add checked albums to user's albums
+		albumsToShelf.forEach(album => {
+			creator.albums.push(album);
 		});
 
 		// Create Shelf

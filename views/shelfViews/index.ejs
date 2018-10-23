@@ -2,12 +2,18 @@
 
 	<h2>Shelves</h2>
 	<ul> 
-		<% allShelves.forEach((elem, i) => { %>
+		<% allShelves.forEach(shelf => { %>
 
 			<li>
-				<a href="/shelves/<%=elem.id%>"><i><%=elem.title%></i>, <%=elem.created_by%></a>
+				<a href="/shelves/<%=shelf.id%>"><i><%=shelf.title%></i></a> | 
+				
+				<% users.forEach(user => { %>
+					<% if (shelf.created_by == user.id) {%>
+						<a href="/users/<%=user.id%>"><%=user.username%></a>
+					<%}%>
+				<% }) %>
 
-				<form action="/shelves/<%=elem.id%>?_method=DELETE" method="POST">
+				<form action="/shelves/<%=shelf.id%>?_method=DELETE" method="POST">
 					<button>Delete Shelf</button>
 				</form>
 			</li>

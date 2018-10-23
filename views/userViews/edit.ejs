@@ -36,7 +36,7 @@
 						Album Title: "..."<%=oneUserAlbum.title%> | 
 						<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
 						<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
-							<button type="submit">Delete Album</button>
+							<button>Delete Album</button>
 						</form>
 					</li>
 					<% }) %>
@@ -47,10 +47,10 @@
 					<% user.shelves.forEach(oneUserShelf => {
 						if (oneUserShelf != null){%>
 						<li>
-							Shelf Title: "..."<%=oneUserShelf.title%> | 
+							<a href="/shelves/<%=oneUserShelf.id%>"><%=oneUserShelf.title%></a> | 
 							<a href="/shelves/<%=oneUserShelf.id%>/edit">Edit Shelf</a> | 
 							<form action="/shelves/<%=oneUserShelf.id%>?_method=DELETE" method="POST">
-								<button type="submit">Delete Shelf</button>
+								<button>Delete Shelf</button>
 							</form>
 						</li>
 						<% } %>

@@ -1,9 +1,13 @@
   <% include ../partials/header.ejs %>
 
 	<h2>Albums</h2>
-		<%albums.forEach((elem, i) => {%>
-			<li><a href="/albums/<%=elem.id%>"><i><%=elem.title%></i>, <%=elem.artist%></a></li>
-		<%})%>
+	
+	<%albums.forEach((elem, i) => {%>
+		<li><a href="/albums/<%=elem.id%>"><i><%=elem.title%></i> | <%=elem.artist%></a></li>
+	<%})%>
+	<br>
+
+	<a href="albums/new">New Album</a>
 
 </body>
 </html>
