@@ -7,12 +7,12 @@
 			Albums: <br>
 			<% allAlbums.forEach(oneAlbum => { %>
 				<div>
-					<input type="checkbox" id="<%=oneAlbum%>CheckBox" name="album" value="<%=oneAlbum.id%>">
-					<label for="<%=oneAlbum%>CheckBox">Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%></label>
+					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
+					Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%>
 				</div>
 			<% }) %>
 			<br>
-			<button type="submit">Create Shelf</button>
+			<button>Create Shelf</button>
 		</form>
 	</fieldset>
 

@@ -24,20 +24,6 @@ router.get('/', async(req, res, next) => {
 });
 
 
-// ************************* SHELF SHOW ROUTE ***************************
-
-router.get('/:id', async(req, res, next) => {
-	try {
-	    const shelf = await Shelf.findById(req.params.id);
-	    res.render('../views/shelfViews/show.ejs', {
-	    	shelf: shelf
-	    });
-	} catch(err){
-	    next(err);
-	}
-});
-
-
 // ************************* SHELF NEW ROUTE **************************** // Should albums have a 'can-be-found-in-these-playlists'?
 
 router.get('/new', async(req, res, next) => { 		
@@ -53,6 +39,34 @@ router.get('/new', async(req, res, next) => {
 	    	allAlbums
 	    });
 
+	} catch(err){
+	    next(err);
+	}
+});
+
+
+// ************************* SHELF SHOW ROUTE ***************************
+
+router.get('/:id', async(req, res, next) => {
+	try {
+	    const albumsInShelfIds = [];
+
+	    const shelf 		= await Shelf.findById(req.params.id); 		// Find the shelf
+	    const shelfOwner 	= await User.findById(shelf.created_by); 	// Find its owner (shelf.created_by is an id)
+
+
+	    // shelf.albums.forEach(albumId => {albumsInShelfIds.push(albumId)}); // Get albums in shelf's Ids
+
+	    // const albumsInShelf = await Album.find
+
+	    console.log(`---------- shelf ----------\n`, shelf);
+	    console.log(`---------- shelf.created_by ----------\n`, shelf.created_by);
+	    console.log(`---------- shelf.albums ----------\n`, shelf.albums);
+
+	    res.render('../views/shelfViews/show.ejs', {
+	    	shelf,
+	    	shelfOwner
+	    });
 	} catch(err){
 	    next(err);
 	}
@@ -87,28 +101,41 @@ router.get('/new', async(req, res, next) => {
 // ************************* SHELF CREATE ROUTE *************************
 
 router.post('/', async(req, res, next) => {
-	try {
-		// For now find the user's Id that was selected in new.ejs
-		// const user = await User.findById(req.body.userId);
 
-		// Later just use ID stored in logged session, createdBy will be done automatically
-		// const user = User.findById(req.session.userId)
+	try {
+		// Find creator Id (user who is logged on)
+		const creator = await User.findOne({username: req.session.username});
+
+	    // Shelf to be created
+		const shelfToCreate = {
+			title: 		req.body.title,
+			created_by: creator,    	// Add creator
+			albums: 	[],				// Albums will be pushed
+			updated: 	new Date()		// Date of creation
+		};
+
+		// Find albums that were checked  by their Id
+		const albumsToShelf = await Album.find({
+			_id: {
+				$in: req.body.albums
+			}
+		});
+		// Add checked albums
+		albumsToShelf.forEach(album => {
+			shelfToCreate.albums.push(album);
+		});
 
 		// Create Shelf
-	    const createdShelf = await Shelf.create(req.body);
+	    const createdShelf = await Shelf.create(shelfToCreate);
 
-		// Add albums that were checked?
-		// Albums checked on page will be added by their Id
-		// Must verify what req.body.albumsIds will be (array of objects? strings?)
-		// for (let i = 0; req.body.albumsIds.length; i++){
-		// 	createdShelf.albums.push(req.body.albums[i]);
-		// }
-
+	    // Find user
+	    const user = await User.findById(createdShelf.created_by._id) 
 	    // Add Shelf to User
-	    // user.shelves.push(createdShelf);
-
+	    user.shelves.push(createdShelf);
 	    // Save User
-	    // await user.save();
+	    await  user.save();
+
+	    console.log(`-------------------- createdShelf --------------------\n`, createdShelf);
 
 	    res.redirect('/shelves');
 

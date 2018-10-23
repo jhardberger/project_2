@@ -1,0 +1,15 @@
+<% include ../partials/header.ejs %>
+
+	<h1><%=shelf.title%></h1>
+	<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
+
+	<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
+	<br>
+
+	Shelf Albums: <% shelf.albums.forEach(album => { %>
+		<li>Title: <%=album.title%> | Artist: <%=album.artist%></li>
+	<% }) %>
+
+
+</body>
+</html>

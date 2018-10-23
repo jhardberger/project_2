@@ -3,7 +3,15 @@
 	<h2>Shelves</h2>
 	<ul> 
 		<% allShelves.forEach((elem, i) => { %>
-			<li><a href="/shelves/<%=elem.id%>"><i><%=elem.title%></i>, <%=elem.created_by%></a></li>
+
+			<li>
+				<a href="/shelves/<%=elem.id%>"><i><%=elem.title%></i>, <%=elem.created_by%></a>
+
+				<form action="/shelves/<%=elem.id%>?_method=DELETE" method="POST">
+					<button type="submit">Delete Shelf</button>
+				</form>
+			</li>
+
 		<%})%>
 	</ul>
 </body>

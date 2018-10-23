@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
 router.get('/new', async (req, res, next) => {
 	
 	try {
-		const data = db.getRelease(19765, (err, data) => {
+		const data = db.getRelease(1928639, (err, data) => {
 			console.log(data);
 			res.render('albumViews/new.ejs', {
 				album: data
