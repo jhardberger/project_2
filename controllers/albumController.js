@@ -8,12 +8,6 @@ const user 		 = require('../models/userModel');
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
 const db 			= new Discogs().database();
-
-
-
-/**--------------------TEST AREA FOR NOW----------------------**/
-
-
 														//routes
 //index
 router.get('/', async (req, res, next) => {
