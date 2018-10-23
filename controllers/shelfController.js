@@ -114,7 +114,7 @@ router.post('/', async(req, res, next) => {
 			updated: 	new Date()		// Date of creation
 		};
 
-		// Find albums that were checked  by their Id
+		// Find albums that were checked by their Id
 		const albumsToShelf = await Album.find({
 			_id: {
 				$in: req.body.albums
@@ -173,21 +173,25 @@ router.post('/', async(req, res, next) => {
 
 router.delete('/:id', async(req, res, next) => {
 	try {
-	    // Find user that OWNS the shelf (shelf.created_by)
 	    const shelfToDestroy = await Shelf.findById(req.params.id);
+	    
 	    console.log(`-------------------- shelfToDestroy --------------------\n`, shelfToDestroy);
 	    console.log(`-------------------- shelfToDestroy.created_by --------------------\n`, shelfToDestroy.created_by);
-
-	    // const owner = await User.findOne({'shelves._id': req.params.id});
 
 		// Destroy Shelf
 	    const shelf = await Shelf.findByIdAndDelete(req.params.id);
 
+	    // Find user that OWNS the shelf (shelfToDestroy.created_by)
+	    const owner = await User.findById(shelfToDestroy.created_by);
+
+
+	    // const owner = await User.findOne({'shelves._id': req.params.id});
+
 	    // Destroy owner's shelf
-        // owner.shelves.id(req.params.id).remove();
+        owner.shelves.id(req.params.id).remove();
 
 	    // Save changes
-        // owner.save();
+        owner.save();
         res.redirect('/shelves');
 
 	} catch(err){
