@@ -105,11 +105,11 @@ router.post('/', async(req, res, next) => {
 
 		const creator = await User.findOne({username: req.session.username}); // Find creator Id (user who is logged on)
 
-		const shelfToCreate = {										// Shelf to be created
+		const shelfToCreate = {				// Shelf to be created
 			title: 		req.body.title,
-			created_by: creator,    	// Add creator
-			albums: 	[],				// Albums will be pushed
-			updated: 	new Date()		// Date of creation
+			created_by: creator,    		// Add creator
+			albums: 	[],					// Albums will be pushed
+			updated: 	new Date()			// Date of creation
 		};
 
 		const albumsToShelf = await Album.find({					// Find albums that were checked by their Id
@@ -187,7 +187,7 @@ router.post('/', async(req, res, next) => {
 	    console.log(`-------------------- usershelf1 --------------------\n`, user.shelves[0]);
 	    console.log(`-------------------- usershelf2 --------------------\n`, user.shelves[1]);
 	    // console.log(`-------------------- noDuplicates --------------------\n`, noDuplicates);	    
-	    res.redirect('/users');
+        res.redirect('/users/' + user.id + '/edit');
 
 	} catch(err){
 	    next(err);
@@ -197,51 +197,67 @@ router.post('/', async(req, res, next) => {
 
 // ************************* SHELF UPDATE ROUTE *************************
 
-// router.put('/:id', async(req, res, next) => {
-// 	try {
-// 	    const updatedShelf = await Shelf.findByIdAndUpdate(req.params.id, req.body, {new: true});
+router.put('/:id', async(req, res, next) => {
+	try {
+		// ---------------------------- UPDATE SHELF ---------------------------- 
 
-// 	    // Find user that OWNS the shelf to update their shelf
-// 	    const owner = await User.findOne({'shelves._id': req.params.id});
+	    const updatedShelf = await Shelf.findById(req.params.id); 	// Find the shelf
 
-// 	    // Remove old shelf from owner
-//         owner.shelves.id(req.params.id).remove();
+	    updatedShelf.title = req.body.title							// Update title
+	    updatedShelf.albums = [];									// Empty shelf albums
 
-//         // Add updated shelf to owner
-//         owner.shelves.push(updatedShelf);
+	    const desiredAlbums = await Album.find({					// Get desired albums from database
+	    	_id: {
+	    		$in: req.body.albums
+	    	}
+	    });
 
-//         // Save changes
-//         owner.save();
+	    desiredAlbums.forEach(album => {
+	    	updatedShelf.albums.push(album);
+	    });
 
-// 	} catch(err){
-// 	    next(err);
-// 	}
-// });
+	    await updatedShelf.save();
+
+		// ---------------------------- UPDATE SHELF OWNER ---------------------------- 
+
+	    const owner = await User.findOne({'shelves._id': req.params.id});
+
+        owner.shelves.id(req.params.id).remove();	// Remove old shelf from owner
+
+        owner.shelves.push(updatedShelf);			// Add updated shelf to owner
+
+		// ---------------------------- Save / Redirect ---------------------------- 
+        owner.save();								
+
+        res.redirect('/users/' + user + '/edit');
+
+	} catch(err){
+	    next(err);
+	}
+});
 
 
 // ************************* SHELF DESTROY ROUTE *************************
 
 router.delete('/:id', async(req, res, next) => {
 	try {
-	    const shelfToDestroy = await Shelf.findById(req.params.id);
-	    
-	    console.log(`-------------------- shelfToDestroy --------------------\n`, shelfToDestroy);
-	    console.log(`-------------------- shelfToDestroy.created_by --------------------\n`, shelfToDestroy.created_by);
+		// ---------------------------- FIND SHELF TO DESTROY ---------------------------- 
 
-		// Destroy Shelf
+	    const shelfToDestroy = await Shelf.findById(req.params.id);
+
+		// ---------------------------- DESTROY SHELF ---------------------------- 
+
 	    const shelf = await Shelf.findByIdAndDelete(req.params.id);
 
-	    // Find user that OWNS the shelf (shelfToDestroy.created_by)
+		// ---------------------------- DESTROY OWNER'S SHELF ---------------------------- 
+	    
 	    const owner = await User.findById(shelfToDestroy.created_by);
 
-
-	    // const owner = await User.findOne({'shelves._id': req.params.id});
-
-	    // Destroy owner's shelf
         owner.shelves.id(req.params.id).remove();
 
-	    // Save changes
+		// ---------------------------- Save / Redirect ---------------------------- 
         owner.save();
+
         res.redirect('/shelves');
 
 	} catch(err){
