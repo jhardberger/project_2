@@ -33,7 +33,7 @@ const shelfController 	= require('./controllers/shelfController.js');
 const albumController 	= require('./controllers/albumController.js');
 const authController	= require('./controllers/authController.js');
 const linerNoteController 	= require('./controllers/linerNoteController.js');
-
+const searchController 	= require('./controllers/searchController.js');
 
 // ************************* Use MiddleWare **************************
 
@@ -63,6 +63,7 @@ app.use('/shelves', shelfController);
 app.use('/albums', albumController);
 app.use('/linernotes', linerNoteController);
 app.use('/auth', authController);
+app.use('/search', searchController);
 
 
 app.get('/home', (req, res) => {
