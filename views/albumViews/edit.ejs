@@ -1,10 +1,13 @@
-  <% include ../partials/header.ejs %>
+<% include ../partials/header.ejs %>
 
 	<main>
 		<h2>Add to Shelves</h2>
 		something will happen here re: adding to shelves, favoriting, etc. 
 		<form method="POST" action="/albums/<%=album.id%>/?_method=PUT">
 			<input type="submit">	
+		</form>
+		<form method="POST" action="/albums/<%=album.id%>/?_method=DELETE">
+			<input type="submit" value="delete">	
 		</form>
 	</main>
 </body>

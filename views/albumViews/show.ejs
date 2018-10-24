@@ -1,4 +1,4 @@
-  <% include ../partials/header.ejs %>
+<% include ../partials/header.ejs %>
 
 	<h1><%=album.title%></h1>
 	<h2><%=album.artist%></h2>
@@ -6,5 +6,10 @@
 
 	<img src="<%=album.cover%>">
 	Released: <%=album.year%><br>
+	
+	<form action="/albums/<%=album.id%>%>/edit">
+		<input type="submit" value="edit">		
+	</form>
+
 </body>
 </html>
