@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1>Results</h1>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/albums">Album Index</a></li>
+				<li><a href="/search/">New Search</a></li>
+
+			</ul>
+	</header>
+	<main>
+		<h2>Results: </h2>
+		<ul>
+			<%albums.forEach((elem, i) => {%>
+			<li><a href="http://localhost:3000/albums/new/<%=elem.id%>"><%=elem.title%></a></li>
+			<%})%>
+		</ul>
+	</main>
+</body>
+</html>

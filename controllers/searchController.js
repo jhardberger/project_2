@@ -29,33 +29,59 @@ router.post('/', async (req, res, next) => {
 	try {
 
 		let ourQuery = req.body.query.split(' ').join('-');
-		
 		console.log(ourQuery, 'our query--------------------------');
 
-		request
-			.get('api.discogs.com/database/search?release_title=' + ourQuery + '&per_page=3&page=1&token=' + token)
-			// .get('api.discogs.com/database/search?release=' + ourQuery + '&artist=' + ourQuery + '&per_page=20&page=1&token=' + token)
-			.end((err, data)=>{
-				if(err){
-					console.log(err);
-				}
+		if(req.body.toggle === 'album'){
+			
+			request
+				.get('api.discogs.com/database/search?release_title=' + ourQuery + '&per_page=20&page=1&token=' + token)
+				.end((err, data)=>{
+					if(err){
+						console.log(err);
+					}
 
-				console.log(data);
-				const albumsData = JSON.parse(data.text);
-	            const results = albumsData.results;
+					console.log(data);
+					const albumsData = JSON.parse(data.text);
+		            const results = albumsData.results;
 
-				console.log("---------------------------results-----------------------")
-	            console.log(results);
-	            console.log("---------------------------results-----------------------")
+					console.log("---------------------------results-----------------------")
+		            console.log(results);
+		            console.log("---------------------------results-----------------------")
 
 
 
-	            res.render('searchViews/index.ejs', {
-	            	albums: results
-	            });
-			});
+		            res.render('searchViews/index.ejs', {
+		            	albums: results
+		            });
+				});
 
-	} catch(err){
+		}if(req.body.toggle === 'artist'){
+
+			request
+				.get('api.discogs.com/database/search?artist=' + ourQuery + '&per_page=20&page=1&token=' + token)
+				.end((err, data)=>{
+					if(err){
+						console.log(err);
+					}
+
+					console.log(data);
+					const albumsData = JSON.parse(data.text);
+		            const results = albumsData.results;
+
+					console.log("---------------------------results-----------------------")
+		            console.log(results);
+		            console.log("---------------------------results-----------------------")
+
+
+
+		            res.render('searchViews/index.ejs', {
+		            	albums: results
+		            });
+				});
+
+		}
+
+	}catch(err){
 		next(err)
 	}
 	

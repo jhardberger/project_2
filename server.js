@@ -5,33 +5,23 @@ const session 	= require('express-session');
 
 require('./db/db');
 
-// ************************* Elasticsearch **************************
-
-const elasticsearch = require('elasticsearch');
-const esClient 		= new elasticsearch.Client({
-  host: '127.0.0.1:9200',
-  log: 'error'
-});
-
 // ************************* Discogs Module/Database **************************
 
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
 const discogsDb 	= new Discogs().database();
 
-
 // ************************* Require MiddleWare **************************
 
 const bodyParser 		= require('body-parser');
 const methodOverride 	= require('method-override');
 
-
 // ************************* Require Controllers **************************
 
-const userController 	= require('./controllers/userController.js');
-const shelfController 	= require('./controllers/shelfController.js');
-const albumController 	= require('./controllers/albumController.js');
-const authController	= require('./controllers/authController.js');
+const userController 		= require('./controllers/userController.js');
+const shelfController 		= require('./controllers/shelfController.js');
+const albumController 		= require('./controllers/albumController.js');
+const authController		= require('./controllers/authController.js');
 const linerNoteController 	= require('./controllers/linerNoteController.js');
 const searchController 	= require('./controllers/searchController.js');
 

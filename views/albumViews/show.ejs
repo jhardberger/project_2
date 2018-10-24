@@ -1,12 +1,23 @@
-<% include ../partials/header.ejs %>
 
-	<h1><%=album.title%></h1>
-	<h2><%=album.artist%></h2>
-
-
-	<img src="<%=album.cover%>">
-	Released: <%=album.year%><br>
-	
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1><%=album.title%></h1>
+		<h2><%=album.artist%></h2>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/albums/">Album Index</a></li>
+				<li><a href="/search/">New Search</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+>>>>>>> elastic-test
 	<form action="/albums/<%=album.id%>%>/edit">
 		<input type="submit" value="edit">		
 	</form>
