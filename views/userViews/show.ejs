@@ -2,28 +2,41 @@
 
 	<h1>Username: <%=user.username%></h1>
 
-	<a href="http://localhost:3000/users/<%=user._id%>/edit">Edit Profile</a>
-
-	<ul>
-		<li>Genres: 
-			<ul>
-				<% user.genres.forEach(oneGenre => { %>
-					<li><%=oneGenre%></li>
-				<% }) %>
-			</ul>
-		</li><br>
-		<li>Bio: 		<%=user.bio%></li><br>
-		<li>Albums: 	<%=user.albums%></li><br>
-		<li>Shelves: 	
-			<ul>
-				<% user.shelves.forEach(shelf => { %>
-					<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a></li>
-				<% }) %>
-			</ul>
-		</li><br>
-		<li>Liner Notes: <%=user.linerNotes%></li><br>
-		<li>Now Spinning: <%=user.spinning%></li><br>
-	</ul>
+	<fieldset>
+		<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
+		<ul>
+			<li>Now Spinning: <%=user.spinning%><a href="/users/<%=user._id%>/edit">Edit Now Spinning</a></li><br>
+			<li>Genres: 
+				<ul>
+					<% user.genres.forEach(oneGenre => { %>
+						<li><%=oneGenre%></li>
+					<% }) %>
+				</ul>
+			</li><br>
+			<li>Bio: 		<%=user.bio%></li><br>
+		</ul>
+	</fieldset>
+	<br>
+	<fieldset>
+		<legend>Library</legend>
+		<ul>
+			<li>Albums: 	<a href="/albums/new">New Album</a>
+				<ul>
+					<% user.albums.forEach(album => { %>
+						<li><a href="/albums/<%=album.id%>"><%=album.title%></a></li>
+					<% }) %>
+				</ul>
+			</li><br>
+			<li>Shelves: 	<a href="/shelves/new">New Shelf</a>
+				<ul>
+					<% user.shelves.forEach(shelf => { %>
+						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a></li>
+					<% }) %>
+				</ul>
+			</li><br>
+			<li>Liner Notes: <%=user.linerNotes%></li><br>
+		</ul>
+	</fieldset>
 
 </body>
 </html>

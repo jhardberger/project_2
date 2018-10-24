@@ -2,9 +2,8 @@ const express 	= require('express');
 const app 		= express();
 const PORT 		= 3000;
 const session 	= require('express-session');
-require('./db/db')
 
-require('./db/db')
+require('./db/db');
 
 
 // ************************* Discogs Module/Database **************************
@@ -49,6 +48,14 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(methodOverride('_method'));
 app.use(express.static('public')); 	// Add CSS through 'public' directory
 
+
+// *************** Upcoming feature - Logged user can access their page from any route ****************
+
+// app.use('/', async (req, res, next) => {
+// 	console.log(`--------------------- YOYOYO ---------------------`);
+// 	console.log(`----------- Custom MiddleWare req.session.userId------------\n`, req.session.userId);
+// 	next();	
+// });
 
 // ************************* Use Controllers **************************
 

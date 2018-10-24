@@ -43,13 +43,15 @@ router.post('/register', async (req, res, next) => {
 		    // userDbEntry.password = passwordHash;
 
 		    // Put password into database
-		    await User.create(userDbEntry);
+		    const createdUser = await User.create(userDbEntry);
 
 		    console.log(`-------------------- userDbEntry REGISTER --------------------\n`, userDbEntry);
 
 	        // Initialize session (attach properties to session middleware, accessible through every route)
 		    req.session.username = req.body.username;
 		    req.session.logged   = true;
+		    console.log(`-------------------- req.session --------------------\n`, req.session);
+
 		    res.redirect('/home');
 
 	    } else {
@@ -81,7 +83,10 @@ router.post('/login', async(req, res, next) => {
 
 		    req.session.username = req.body.username;
 		    req.session.logged   = true;
+		    req.session.userId 	 = user[0]._id;
+
 		    res.redirect('/users/' + user[0]._id);
+
 			console.log(`-------------------- User Entry --------------------\n`, req.session);
 
 	    } else {

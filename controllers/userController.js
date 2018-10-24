@@ -39,7 +39,7 @@ router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
 	    res.render('../views/userViews/show.ejs', {
-	    	user: user 
+	    	user
 	    })
 	} catch(err){
 	    next(err);

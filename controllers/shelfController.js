@@ -21,8 +21,8 @@ router.get('/', async(req, res, next) => {
 	    res.render('../views/shelfViews/index.ejs', {
 	    	allShelves,
 	    	users
-
 	    })
+
 	} catch(err){
 	    next(err);
 	}
@@ -64,10 +64,6 @@ router.get('/:id', async(req, res, next) => {
 
 	    // const albumsInShelf = await Album.find
 
-	    console.log(`-------------------- shelf --------------------\n`, shelf);
-	    console.log(`-------------------- shelf.created_by --------------------\n`, shelf.created_by);
-	    console.log(`-------------------- shelf.albums --------------------\n`, shelf.albums);
-
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
 	    	shelfOwner
@@ -80,27 +76,23 @@ router.get('/:id', async(req, res, next) => {
 
 // ************************* SHELF EDIT ROUTE *************************** 
 
-// router.get('/:id/edit', async(req, res, next) => {
-// 	try {
+router.get('/:id/edit', async(req, res, next) => {
+	try {
 
-// 	    const shelf = await Shelf.findById(req.params.id);
+    const shelf = await Shelf.findById(req.params.id);
+    const shelfOwner 	= await User.findById(shelf.created_by);
+    const allAlbums = await Album.find({});
 
-// 		// Will only be available to logged user and shelf creator
-// 		// if (session.logged && session.userId === shelf.createdBy){
-// 		    // For now make it possible to edit createdBy by showing all users
-// 		    const allUsers = await User.find({});
-// 		    res.render('../views/shelfViews/edit.ejs', {
-// 		    	shelf: shelf,
-// 		    	users: allUsers
-// 		    })
-// 		// } else {
-// 		// 	req.session.message = 'Not yo shelf!'
-// 		// }
+	res.render('../views/shelfViews/edit.ejs', {
+		shelf,
+		shelfOwner,
+		allAlbums
+	})
 
-// 	} catch(err){
-// 	    next(err);
-// 	}
-// });
+	} catch(err){
+	    next(err);
+	}
+});
 
 
 // ************************* SHELF CREATE ROUTE *************************
@@ -108,46 +100,94 @@ router.get('/:id', async(req, res, next) => {
 router.post('/', async(req, res, next) => {
 
 	try {
-		// Find creator Id (user who is logged on)
-		const creator = await User.findOne({username: req.session.username});
 
-	    // Shelf to be created
-		const shelfToCreate = {
+		// ------------------------- MAKE SHELF ------------------------- 
+
+		const creator = await User.findOne({username: req.session.username}); // Find creator Id (user who is logged on)
+
+		const shelfToCreate = {										// Shelf to be created
 			title: 		req.body.title,
 			created_by: creator,    	// Add creator
 			albums: 	[],				// Albums will be pushed
 			updated: 	new Date()		// Date of creation
 		};
 
-		// Find albums that were checked by their Id
-		const albumsToShelf = await Album.find({
+		const albumsToShelf = await Album.find({					// Find albums that were checked by their Id
 			_id: {
 				$in: req.body.albums
 			}
 		});
-		// Add checked albums to shelf
-		albumsToShelf.forEach(album => {
+
+		albumsToShelf.forEach(album => {							// Add checked albums to shelf
 			shelfToCreate.albums.push(album);
 		});
 
-		// Add checked albums to user's albums
-		albumsToShelf.forEach(album => {
-			creator.albums.push(album);
-		});
+	    const createdShelf = await Shelf.create(shelfToCreate);		// Create Shelf
 
-		// Create Shelf
-	    const createdShelf = await Shelf.create(shelfToCreate);
 
-	    // Find user
-	    const user = await User.findById(createdShelf.created_by._id) 
-	    // Add Shelf to User
-	    user.shelves.push(createdShelf);
-	    // Save User
-	    await  user.save();
+		// ----------------------- ADD SHELF TO USER ----------------------- 
 
+	    const user = await User.findById(createdShelf.created_by._id) 	// Find user
+	   
+	    user.shelves.push(createdShelf);								// Add Shelf to User
+	  
+
+		// ----------------------- ADD ALBUMS TO USER ----------------------- 
+
+		// ********** ATTEMPT 1 **********
+
+		// // Test for duplicates fctn
+		// function findIfDuplicate(userAlbum) {		// RETURNS ID OF DUPLICATE IN USERALBUM
+		// 	return userAlbum.id === shelfAlbum.id; 	// If no match, returns -1
+		// };
+
+
+		// createdShelf.albums.forEach(shelfAlbum => {		// For each album in the created shelf
+		// 	if (user.albums == []){						// If user.albums is empty
+		// 		user.albums = createdShelf.albums;		// Add all createdShelf albums
+		// 	} else {									// If not empty
+		// 		user.albums.forEach(userAlbum => {										// Check for duplicates
+		// 			if (user.albums.findIndex(findIfDuplicate(userAlbum)) === -1){		// If check returned -1 (i.e. no duplicates)
+		// 				user.albums.push(shelfAlbum);									// Add album
+		// 			}				
+		// 		})
+		// 	}
+		// });
+
+
+		// ********** ATTEMPT 2 **********
+
+		// Make two arrays of album ids to compare
+		// userAlbumIds = []
+		// user.albums.forEach(userAlbum => {
+		// 	userAlbumIds.push(userAlbum.id);
+		// });
+
+		// createdShelfAlbumIds = [];
+		// createdShelf.albums.forEach(shelfAlbum => {
+		// 	createdShelfAlbumIds.push(shelfAlbum.id);
+		// });
+
+		// noDuplicates = userAlbumIds.concat(createdShelfAlbumIds.filter(function(item){
+		// 	return userAlbumIds.indexOf(item) < 0;
+		// }));
+		// let noDuplicates = [];
+
+		// if (typeof userAlbumIds !== 'undefined' && userAlbumIds.length === 0){
+		// 	noDuplicates = createdShelfAlbumIds;
+		// } else {
+		// 	noDuplicates = Array.from(new Set(userAlbumIds.concat(createdShelfAlbumIds)));	
+		// }
+
+		// ---------------------------- SAVE USER ---------------------------- 
+
+	    await user.save();											// Save User
+	    
 	    console.log(`-------------------- createdShelf --------------------\n`, createdShelf);
-
-	    res.redirect('/shelves');
+	    console.log(`-------------------- usershelf1 --------------------\n`, user.shelves[0]);
+	    console.log(`-------------------- usershelf2 --------------------\n`, user.shelves[1]);
+	    // console.log(`-------------------- noDuplicates --------------------\n`, noDuplicates);	    
+	    res.redirect('/users');
 
 	} catch(err){
 	    next(err);

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
 	password: 	{type: String, required: true},
 	genres: 	[{type: String}],
 	bio: 		{type: String},
-	albums: 	[{type: String}],
+	albums: 	[Album.schema],
 	shelves: 	[Shelf.schema],
 	linerNotes: [LinerNote.schema],
 	spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}
