@@ -10,12 +10,18 @@
 			<ul>
 				<li><a href="/">Home</a></li>
 				<li><a href="/albums">Album Index</a></li>
+				<li><a href="/search/">New Search</a></li>
+
 			</ul>
 		</nav>
 	</header>
 	<main>
 		<form method="POST" action="/search/">
 			<input type="text" name="query">
+			<select name="toggle">
+				<option value="album">Album</option>
+				<option value="artist">Artist</option>
+			</select>
 			<input type="submit">
 		</form>
 	</main>

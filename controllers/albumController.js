@@ -29,23 +29,30 @@ router.get('/', async (req, res, next) => {
 //new
 router.get('/new/:id', async (req, res, next) => {
 
-	let masterId = req.params.id;
+	let releaseId = req.params.id;
 	try{
-		request
-			.get('api.discogs.com/masters/' + masterId + '&token=' + token)
-			.end((err, data) => {
-				if(err){
-					console.log(err);
-				}
-
-				console.log(data);
-				const albumData = JSON.parse(data.text);
-				console.log("---------------------------newXalbum-----------------------")
-		        console.log(albumData);
-		        console.log("---------------------------newXalbum-----------------------")			// res.render('albumViews/new.ejs', {
-				// 	album: data
-				// });
+		db.getRelease(releaseId, (err, data) => {
+			console.log(data);
+			res.render('albumViews/new.ejs', {
+				album: data
 			});
+		});
+
+		// request
+		// 	.get('api.discogs.com/releases/' + releaseId + '&token=' + token)
+		// 	.end((err, data) => {
+		// 		if(err){
+		// 			console.log(err);
+		// 		}
+
+		// 		console.log(data);
+		// 		const albumData = JSON.parse(data.text);
+		// 		console.log("---------------------------newXalbum-----------------------")
+		//         console.log(albumData);
+		//         console.log("---------------------------newXalbum-----------------------")			// res.render('albumViews/new.ejs', {
+		// 		// 	album: data
+		// 		// });
+		// 	});
 	}catch(err){
 		next(err)
 	}
