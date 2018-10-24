@@ -33,23 +33,26 @@ router.post('/', async (req, res, next) => {
 		console.log(ourQuery, 'our query--------------------------');
 
 		request
-			.get('api.discogs.com/database/search?artist=' + ourQuery + '&per_page=3&page=1&token=' + token)
+			.get('api.discogs.com/database/search?q=' + ourQuery + '&per_page=10&page=1&token=' + token)
 			.end((err, data)=>{
 				if(err){
 					console.log(err);
 				}
 
 				console.log(data);
-				const albumData = JSON.parse(data.text)
+				const albumsData = JSON.parse(data.text);
+	            const results = albumsData.results;
 
-				console.log("---------------------------album data after JSON.parse-----------------------")
-	            console.log(albumData);
-	            console.log("---------------------------album  data-----------------------")
+				console.log("---------------------------results-----------------------")
+	            console.log(results);
+	            console.log("---------------------------results-----------------------")
 
-	            res.send('ceck out that terminal baby')
+
+
+	            res.render('searchViews/index.ejs', {
+	            	albums: results
+	            });
 			});
-
-
 
 	} catch(err){
 		next(err)

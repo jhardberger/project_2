@@ -1,5 +1,7 @@
 const express	 = require('express');
 const router 	 = express.Router();
+const request 	 = require('superagent');
+
 														//models
 const Album   	 = require('../models/albumModel');
 const LinerNotes = require('../models/linerNoteModel');
@@ -8,6 +10,8 @@ const user 		 = require('../models/userModel');
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
 const db 			= new Discogs().database();
+const token 		= 'WTTOEjBUVdyxkdXoXYknEggHNyUjHwRdnIJaokxD';
+
 														//routes
 //index
 router.get('/', async (req, res, next) => {
@@ -23,18 +27,29 @@ router.get('/', async (req, res, next) => {
 });
 
 //new
-router.get('/new', async (req, res, next) => {
-	
-	try {
-		const data = db.getRelease(7027316, (err, data) => {
-			// console.log(data);
-			res.render('albumViews/new.ejs', {
-				album: data
+router.get('/new/:id', async (req, res, next) => {
+
+	let masterId = req.params.id;
+	try{
+		request
+			.get('api.discogs.com/masters/' + masterId + '&token=' + token)
+			.end((err, data) => {
+				if(err){
+					console.log(err);
+				}
+
+				console.log(data);
+				const albumData = JSON.parse(data.text);
+				console.log("---------------------------newXalbum-----------------------")
+		        console.log(albumData);
+		        console.log("---------------------------newXalbum-----------------------")			// res.render('albumViews/new.ejs', {
+				// 	album: data
+				// });
 			});
-		});
-	} catch(err){
+	}catch(err){
 		next(err)
-	}	
+	}
+
 });
 
 //show
