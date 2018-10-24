@@ -15,7 +15,7 @@
 		<h2>Results: </h2>
 		<ul>
 			<%albums.forEach((elem, i) => {%>
-			<li><a href="http://localhost:3000/albums/new/<%=elem.master_id%>"><%=elem.title%></a></li>
+			<li><a href="http://localhost:3000/albums/new/<%=elem.id%>"><%=elem.title%></a></li>
 			<%})%>
 		</ul>
 	</main>

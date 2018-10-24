@@ -33,7 +33,8 @@ router.post('/', async (req, res, next) => {
 		console.log(ourQuery, 'our query--------------------------');
 
 		request
-			.get('api.discogs.com/database/search?q=' + ourQuery + '&per_page=10&page=1&token=' + token)
+			.get('api.discogs.com/database/search?release_title=' + ourQuery + '&per_page=3&page=1&token=' + token)
+			// .get('api.discogs.com/database/search?release=' + ourQuery + '&artist=' + ourQuery + '&per_page=20&page=1&token=' + token)
 			.end((err, data)=>{
 				if(err){
 					console.log(err);
