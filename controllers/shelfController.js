@@ -59,11 +59,6 @@ router.get('/:id', async(req, res, next) => {
 	    const shelf 		= await Shelf.findById(req.params.id); 		// Find the shelf
 	    const shelfOwner 	= await User.findById(shelf.created_by); 	// Find its owner (shelf.created_by is an id)
 
-
-	    // shelf.albums.forEach(albumId => {albumsInShelfIds.push(albumId)}); // Get albums in shelf's Ids
-
-	    // const albumsInShelf = await Album.find
-
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
 	    	shelfOwner
@@ -134,59 +129,25 @@ router.post('/', async(req, res, next) => {
 
 		// ----------------------- ADD ALBUMS TO USER ----------------------- 
 
-		// ********** ATTEMPT 1 **********
+		createdShelf.albums.forEach(shelfAlbum => {											// For each album in the created shelf
 
-		// // Test for duplicates fctn
-		// function findIfDuplicate(userAlbum) {		// RETURNS ID OF DUPLICATE IN USERALBUM
-		// 	return userAlbum.id === shelfAlbum.id; 	// If no match, returns -1
-		// };
+			if (user.albums.length == 0){													// If user.albums is empty
+				createdShelf.albums.forEach(alb => user.albums.push(alb))					// Add all createdShelf albums
 
-
-		// createdShelf.albums.forEach(shelfAlbum => {		// For each album in the created shelf
-		// 	if (user.albums == []){						// If user.albums is empty
-		// 		user.albums = createdShelf.albums;		// Add all createdShelf albums
-		// 	} else {									// If not empty
-		// 		user.albums.forEach(userAlbum => {										// Check for duplicates
-		// 			if (user.albums.findIndex(findIfDuplicate(userAlbum)) === -1){		// If check returned -1 (i.e. no duplicates)
-		// 				user.albums.push(shelfAlbum);									// Add album
-		// 			}				
-		// 		})
-		// 	}
-		// });
+			} else {																		// If not empty
+				user.albums.forEach(userAlbum => {											// Check for duplicates
+					if (user.albums.findIndex((alb) => alb.id === shelfAlbum.id) === -1) {	// If check returned -1 (i.e. no duplicates)
+						user.albums.push(shelfAlbum);										// Add album
+					}				
+				})
+			}
+		});
 
 
-		// ********** ATTEMPT 2 **********
+		// ---------------------------- Save / Redirect ---------------------------- 
 
-		// Make two arrays of album ids to compare
-		// userAlbumIds = []
-		// user.albums.forEach(userAlbum => {
-		// 	userAlbumIds.push(userAlbum.id);
-		// });
-
-		// createdShelfAlbumIds = [];
-		// createdShelf.albums.forEach(shelfAlbum => {
-		// 	createdShelfAlbumIds.push(shelfAlbum.id);
-		// });
-
-		// noDuplicates = userAlbumIds.concat(createdShelfAlbumIds.filter(function(item){
-		// 	return userAlbumIds.indexOf(item) < 0;
-		// }));
-		// let noDuplicates = [];
-
-		// if (typeof userAlbumIds !== 'undefined' && userAlbumIds.length === 0){
-		// 	noDuplicates = createdShelfAlbumIds;
-		// } else {
-		// 	noDuplicates = Array.from(new Set(userAlbumIds.concat(createdShelfAlbumIds)));	
-		// }
-
-		// ---------------------------- SAVE USER ---------------------------- 
-
-	    await user.save();											// Save User
+	    await user.save();										
 	    
-	    console.log(`-------------------- createdShelf --------------------\n`, createdShelf);
-	    console.log(`-------------------- usershelf1 --------------------\n`, user.shelves[0]);
-	    console.log(`-------------------- usershelf2 --------------------\n`, user.shelves[1]);
-	    // console.log(`-------------------- noDuplicates --------------------\n`, noDuplicates);	    
         res.redirect('/users/' + user.id + '/edit');
 
 	} catch(err){
@@ -266,8 +227,8 @@ router.delete('/:id', async(req, res, next) => {
 });
 
 
-
-
-
-
 module.exports = router;
+
+// ***********************************************************************
+// ******************************** END **********************************
+// ***********************************************************************

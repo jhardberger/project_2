@@ -52,9 +52,10 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 // *************** Upcoming feature - Logged user can access their page from any route ****************
 
 // app.use('/', async (req, res, next) => {
-// 	console.log(`--------------------- YOYOYO ---------------------`);
-// 	console.log(`----------- Custom MiddleWare req.session.userId------------\n`, req.session.userId);
-// 	next();	
+	// console.log(`--------------------- YOYOYO ---------------------`);
+	// console.log(req.body)
+	// console.log(`----------- Custom MiddleWare req.session.userId------------\n`, req.session.userId);
+	// next();	
 // });
 
 // ************************* Use Controllers **************************
@@ -71,9 +72,7 @@ app.get('/home', (req, res) => {
 		// console.log(data);
 		res.render('homepage.ejs')
 	})
-})
-
-
+});
 
 // ************************* PORT SETUP **************************
 
@@ -81,3 +80,8 @@ app.get('/home', (req, res) => {
 app.listen(3000, () => {
     console.log(`Listening on port: ${PORT}`);
 });
+
+
+// ***********************************************************************
+// ******************************** END **********************************
+// ***********************************************************************

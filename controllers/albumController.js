@@ -101,7 +101,7 @@ router.put('/:id', async (req, res, next) => {
 
 //delete
 router.delete('/:id', async (req, res, next) => {
-
+	console.log("HEY HEY HEY HEY HEY HEY HEY HEY delete album route hit! for:" + req.params.id);
 	try {
 		const deletedAlbum = await Album.findByIdAndRemove(req.params.id, () => {
 			res.redirect('/album')
@@ -114,6 +114,9 @@ router.delete('/:id', async (req, res, next) => {
 	}		
 });
 														//exports
+														
 module.exports = router;
 
-
+// ***********************************************************************
+// ******************************** END **********************************
+// ***********************************************************************

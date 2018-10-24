@@ -30,7 +30,7 @@
 	<br>
 
 	<fieldset>
-		<form>
+		
 			Albums: | <a href="/albums/new">New Album</a>
 				<ul> <% user.albums.forEach(oneUserAlbum => { %>
 					<li>
@@ -61,7 +61,7 @@
 			Liner Notes: <input type="text" name="linerNotes" value="<%=user.linerNotes%>"><br><br>
 
 			<button type="submit">Submit changes</button>
-		</form>
+		
 	</fieldset>
 
 

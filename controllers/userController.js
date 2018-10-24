@@ -6,7 +6,7 @@ const Album 	= require('../models/albumModel.js');
 const LinerNote = require('../models/linerNoteModel.js');
 
 // ************************* Declare Genres **************************
-const genres = ['Rock', 'Pop', 'EDM', 'Classical', 'Metal'];
+const genres = ['Blues', 'Brass & Military', 'Children\'s', 'Classical', 'Electronic', 'Folk, World, & Country', 'Funk / Soul', 'Hip-Hop', 'Jazz', 'Latin', 'Non-Music', 'Pop', 'Reggae', 'Rock', 'Stage & Screen'];
 
 /**************************************************************************************
  *********************************** RESTFUL ROUTES *********************************** 
@@ -23,7 +23,6 @@ router.get('/', async(req, res, next) => {
 		// await LinerNote.deleteMany();
 
 	    const allUsers = await User.find({});
-	    console.log(`-------------------- All Users --------------------\n`, allUsers);
 	    res.render('../views/userViews/index.ejs', {
 	    	users: allUsers
 	    })
@@ -139,13 +138,8 @@ router.delete('/:id', async(req, res, next) => {
 });
 
 
-
-
-
-
-
-
-
-
-
 module.exports = router;
+
+// ***********************************************************************
+// ******************************** END **********************************
+// ***********************************************************************
