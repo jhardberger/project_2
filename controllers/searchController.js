@@ -21,7 +21,9 @@ const token 		= 'WTTOEjBUVdyxkdXoXYknEggHNyUjHwRdnIJaokxD';
 																	//routes
 
 router.get('/', (req, res) => {
-	res.render('searchViews/new.ejs', {});
+	res.render('searchViews/new.ejs', {
+	   	session: req.session
+	});
 });
 
 router.post('/', async (req, res, next) => {
@@ -42,16 +44,19 @@ router.post('/', async (req, res, next) => {
 
 					console.log(data);
 					const albumsData = JSON.parse(data.text);
-		            const results = albumsData.results;
+		            const albums = albumsData.results;
 
 					console.log("---------------------------results-----------------------")
-		            console.log(results);
+		            console.log(albums);
 		            console.log("---------------------------results-----------------------")
 
 
 
 		            res.render('searchViews/index.ejs', {
-		            	albums: results
+		            	albums,
+		           		session: req.session
+
+
 		            });
 				});
 
@@ -66,16 +71,17 @@ router.post('/', async (req, res, next) => {
 
 					console.log(data);
 					const albumsData = JSON.parse(data.text);
-		            const results = albumsData.results;
+		            const albums = albumsData.results;
 
 					console.log("---------------------------results-----------------------")
-		            console.log(results);
+		            console.log(albums);
 		            console.log("---------------------------results-----------------------")
 
 
 
 		            res.render('searchViews/index.ejs', {
-		            	albums: results
+		            	albums,
+	    				session: req.session
 		            });
 				});
 
