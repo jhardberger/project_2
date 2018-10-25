@@ -50,8 +50,17 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 // *************** Upcoming feature - Logged user can access their page from any route ****************
 
 app.use('/', async (req, res, next) => {
-	console.log(`--------------------- Custom MiddleWare req.session ---------------------`);
-	console.log(req.session)
+	console.log(`--------------------- Custom MiddleWare: req.session.{prop} ---------------------`);
+	console.log(`Username:`, req.session.username);
+	console.log(`Logged:`, req.session.logged);
+	console.log(`userId:`, req.session.userId);
+
+	// if (req.session.logged == 'undefined'){
+	// 	res.redirect('/auth/login');
+	// } else {
+		
+	// }
+
 	next();	
 });
 

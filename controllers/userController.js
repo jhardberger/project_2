@@ -109,12 +109,22 @@ router.post('/:id/favorites', async(req, res, next) => {
 			user.favorites.push(favoriteShelf);														// Add shelf to user favorites
 
 		} else {																					// If not empty
-			user.favorites.forEach(favoriteShelf => {												// Check for duplicates
-				if (user.favorites.findIndex((shelf) => shelf.id === favoriteShelf.id) === -1) {	// If check returned -1 (i.e. no duplicates)
+			user.favorites.forEach(userFavoriteShelf => {												// Check for duplicates
+				if (user.favorites.findIndex((shelf) => shelf.id == favoriteShelf.id) === -1) {	// If check returned -1 (i.e. no duplicates)
 					user.favorites.push(favoriteShelf);												// Add shelf to favorites
 				}				
 			})
 		};
+
+
+
+		//STUCKKKKK
+		//STUCKKKKK
+		//STUCKKKKK
+		//STUCKKKKK
+		//STUCKKKKK
+		//STUCKKKKK
+		//STUCKKKKK
 
 		// ---------------------------- Save / Redirect ---------------------------- 
 
@@ -140,7 +150,6 @@ router.put('/:id', async(req, res, next) => {
 
 
 // ************************* USER DESTROY ROUTE *************************
-// Same rules as edit
 router.delete('/:id', async(req, res, next) => {
 	try {
 		// Find User
@@ -170,6 +179,27 @@ router.delete('/:id', async(req, res, next) => {
 
 		await user.delete();
 		res.redirect('/users');
+
+	} catch(err){
+	    next(err);
+	}
+});
+
+
+// ************************* USER'S FAVORITES DESTROY ROUTE *************************
+
+router.delete('/:id/favorites/delete', async(req, res, next) => {
+	console.log(`YOOOOOOOOOOOOOOOOOOOOOOOOOOO`);
+	try {
+		const user 		= await User.findById(req.params.id);		// Find User
+
+		console.log(`req.body.deletedShelfId\n`, req.body.deletedShelfId);
+		// Delete shelf from user's favorites
+		user.favorites.id(req.body.deletedShelfId).remove();	
+
+		await user.save();	
+
+		res.redirect('/users/'+ req.params.id +'/edit');
 
 	} catch(err){
 	    next(err);

@@ -57,6 +57,19 @@
 						<% } %>
 					<% }) %>
 				</ul>
+			Favorite Shelves:
+				<ul>
+					<% user.favorites.forEach(favoriteShelf => {
+						if (favoriteShelf != null){%>
+						<li>
+							<a href="/shelves/<%=favoriteShelf.id%>"><%=favoriteShelf.title%></a> | 
+							<form action="/users/<%=user.id%>/favorites/delete?_method=DELETE" method="POST">
+								<button name="deletedShelfId" value="<%=favoriteShelf._id%>">Remove Shelf From Favorites</button>
+							</form>
+						</li>
+						<% } %>
+					<% }) %>
+				</ul>
 
 			Liner Notes: <input type="text" name="linerNotes" value="<%=user.linerNotes%>"><br><br>
 

@@ -129,6 +129,7 @@ router.post('/', async(req, res, next) => {
 		});
 
 	    const createdShelf = await Shelf.create(shelfToCreate);		// Create Shelf
+	    console.log(createdShelf);
 
 
 		// ----------------------- ADD SHELF TO USER ----------------------- 
