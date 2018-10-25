@@ -137,6 +137,12 @@ router.post('/', async(req, res, next) => {
 	    const user = await User.findById(createdShelf.created_by._id) 	// Find user
 	   
 	    user.shelves.push(createdShelf);								// Add Shelf to User
+
+	    user.shelves.sort(function(shelfA, shelfB){						// Organize shelves alphanumerically
+		    if(shelfA.title < shelfB.title) {return -1;}
+		    if(shelfA.title > shelfB.title) {return 1;}
+		    return 0;
+		});
 	  
 
 		// ----------------------- ADD ALBUMS TO USER ----------------------- 
@@ -155,6 +161,12 @@ router.post('/', async(req, res, next) => {
 			}
 		});
 
+		user.albums.sort(function(albumA, albumB){						// Organize albums alphanumerically
+			if(albumA.artist < albumB.artist) {return -1;}
+			if(albumA.artist > albumB.artist) {return 1;}
+			return 0;
+		});
+	  
 
 		// ---------------------------- Save / Redirect ---------------------------- 
 

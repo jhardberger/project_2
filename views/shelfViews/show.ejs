@@ -5,11 +5,16 @@
 
 	<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
 
-	<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
+	<% if (session.logged && session.userId === shelfOwner.id){ %>
+		<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
+	<%}%>
+
 	<br>
 
 	<form action="/users/<%=shelfOwner.id%>/favorites" method="POST">
-		<button name="favorite" value="<%= shelf.id %>">Add to favorites</button>
+		<% if (session.logged && session.userId !== shelfOwner.id){ %>
+			<button name="favorite" value="<%= shelf.id %>">Add to favorites</button>
+		<%}%>
 	</form>
 
 	<br>

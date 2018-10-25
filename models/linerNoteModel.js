@@ -4,7 +4,7 @@ const Album 	= require('../models/userModel');
 const linerNotesSchema = mongoose.Schema({
 	author: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 	body: {type: String, required: true},
-	date: Date,
+	date: {type: Date, default: Date.now},
 	liked_by: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 });
 

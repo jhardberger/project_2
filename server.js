@@ -51,14 +51,14 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 
 app.use('/', async (req, res, next) => {
 	console.log(`--------------------- Custom MiddleWare: req.session.{prop} ---------------------`);
-	console.log(`Username:`, req.session.username);
-	console.log(`Logged:`, req.session.logged);
+	console.log(`username:`, req.session.username);
+	console.log(`logged:`, req.session.logged);
 	console.log(`userId:`, req.session.userId);
 
 	// if (req.session.logged == 'undefined'){
 	// 	res.redirect('/auth/login');
 	// } else {
-		
+
 	// }
 
 	next();	

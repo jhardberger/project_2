@@ -3,9 +3,15 @@
 	<h1>Username: <%=user.username%></h1>
 
 	<fieldset>
-		<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
+		<% if (session.logged && session.userId === user.id){ %>
+			<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
+		<%}%>
+
 		<ul>
-			<li>Now Spinning: <%=user.spinning%></li><br>
+			<li>Now Spinning: 
+				<% if (spinning !== null){ %>
+					<a href="/albums/<%=spinning.id%>"><%=spinning.title%></a> | <%=spinning.artist%></li><br>
+				<% } %>
 			<li>Genres: 
 				<ul>
 					<% user.genres.forEach(oneGenre => { %>
@@ -20,14 +26,20 @@
 	<fieldset>
 		<legend>Library</legend>
 		<ul>
-			<li>Albums: 	<a href="/albums/new">New Album</a>
+			<li>Albums: 	
+				<% if (session.logged && session.userId === user.id){ %>
+					<a href="/albums/new">New Album</a>
+				<%}%>
 				<ul>
 					<% user.albums.forEach(album => { %>
 						<li><a href="/albums/<%=album.id%>"><%=album.title%></a></li>
 					<% }) %>
 				</ul>
 			</li><br>
-			<li>Shelves: 	<a href="/shelves/new">New Shelf</a>
+			<li>Shelves: 			
+				<% if (session.logged && session.userId === user.id){ %>
+					<a href="/shelves/new">New Shelf</a>
+				<%}%>
 				<ul>
 					<% user.shelves.forEach(shelf => { %>
 						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a></li>
@@ -37,7 +49,7 @@
 			<li>Favorite Shelves:
 				<ul>
 					<% user.favorites.forEach(shelf => { %>
-						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by%>">Author</a></li>
+						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by%>">author</a></li>
 					<% }) %>
 				</ul>
 			</li>

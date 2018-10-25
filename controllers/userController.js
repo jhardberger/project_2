@@ -38,8 +38,10 @@ router.get('/', async(req, res, next) => {
 router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
+	    const spinning = await Album.findById(user.spinning);
 	    res.render('../views/userViews/show.ejs', {
 	    	user,
+	    	spinning,
 	    	session: req.session
 	    })
 	} catch(err){
@@ -66,7 +68,7 @@ router.get('/:id/edit', async(req, res, next) => {
 	try {
 		if (req.session.logged && req.session.username === user.username) {		// If CORRECT user logged on, lead to user's edit page
 		    res.render('../views/userViews/edit.ejs', {
-		    	user: user,
+		    	user,
 		    	allGenres: genres,
 		    	session: req.session
 		    })
@@ -94,11 +96,8 @@ router.post('/', async(req, res, next) => {
 
 router.post('/:id/favorites', async(req, res, next) => {
 	try {
-		console.log(`---------- req.body favorites ----------\n`, req.body);
 
 		const favoriteShelf = await Shelf.findById(req.body.favorite); 			// Find favorited shelf by its id 
-
-		console.log(`---------- favorited shelf ----------\n`, favoriteShelf);
 
 		// ----------------------- ADD SHELF TO LOGGED USER'S FAVORITES ----------------------- 
 		// When X favorites a shelf of Y, shelf is added to X's favorites
@@ -116,20 +115,9 @@ router.post('/:id/favorites', async(req, res, next) => {
 			})
 		};
 
-
-
-		//STUCKKKKK
-		//STUCKKKKK
-		//STUCKKKKK
-		//STUCKKKKK
-		//STUCKKKKK
-		//STUCKKKKK
-		//STUCKKKKK
-
 		// ---------------------------- Save / Redirect ---------------------------- 
 
 	    await user.save();	
-		console.log(`---------- user ----------\n`, user);
 
 	    // res.redirect('/auth/register');
 	} catch(err){
