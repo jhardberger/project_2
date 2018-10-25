@@ -6,20 +6,23 @@
 	<title></title>
 </head>
 <body>
-	<header>
-		<h1><%=album.title%></h1>
-		<h2><%=album.artist%></h2>
-	</header>
-	<main>
-	<form action="/albums/<%=album.id%>%>/edit">
+
+	<form action="/albums/<%=album.id%>/edit">
 		<input type="submit" value="edit">		
 	</form>
-	<br>
-	<br>
-	<form action="/linernotes/<%=linernotes.id%>">
+
+	<form action="/linernotes" method="POST">
+		<header>
+			<h1><%=album.title%></h1>
+			<h2><%=album.artist%></h2>
+		</header>
+		<main>
+		<br>
+		<br>
 		<fieldset>
 			<legend>Add Comment:</legend>
-			<textarea type="text" name="body"></textarea>
+			<input name="albumId" value="<%=album.id%>" hidden></input>
+			<textarea type="text" name="note"></textarea>
 			<button>Submit Comment</button>
 		</fieldset>
 	</form>

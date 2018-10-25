@@ -73,12 +73,25 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		const foundUser 	= await User.findById(req.body.userId);
-		const createdNote 	= await LinerNotes.create(req.body);
-		foundUser.linerNotes.push(createdNote);
-		foundUser.save(() => {
-			res.redirect('/linernotes');
-		})
+		const commentedAlbum = await Album.findById(req.body.albumId);	// Find album
+
+		const noteToCreate = {
+			author: 	req.session.userId,
+			note: 		req.body.note,
+			album: 		req.body.album,
+		}
+
+		const createdNote 	= await LinerNotes.create(noteToCreate); 	// Create note
+		const author 		= await User.findById(req.session.userId); 	// Find user
+		console.log(` -------------------- commentedAlbum -------------------- \n`, commentedAlbum);
+		console.log(` -------------------- createdNote -------------------- \n`, createdNote);
+		console.log(` -------------------- author -------------------- \n`, author);
+		
+		// author.linerNotes.push(createdNote);							// Add note to user
+
+		// author.save(() => {
+			// res.redirect('/linernotes');
+		// })
 	} catch(err){
 		next(err)
 	}
