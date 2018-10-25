@@ -30,13 +30,12 @@ router.get('/', async (req, res, next) => {
 router.get('/new/:id', async (req, res, next) => {
 	
 	try {
-		const data = db.getRelease(10114498, (err, data) => {
+		db.getRelease(releaseId, (err, data) => {
 			console.log(data);
 			res.render('albumViews/new.ejs', {
 				album: data
 			});
 		});
-
 		// request
 		// 	.get('api.discogs.com/releases/' + releaseId + '&token=' + token)
 		// 	.end((err, data) => {
