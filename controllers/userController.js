@@ -39,7 +39,11 @@ router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
 	    const spinning = await Album.findById(user.spinning);
-		console.log(user.albums);
+
+	    const userFavorites = await Shelf.find({'liked_by': req.session.userId}).populate('created_by');
+
+	    console.log(`---------- userFavorites ----------\n`, userFavorites);
+
 	    res.render('../views/userViews/show.ejs', {
 	    	user,
 	    	spinning,
