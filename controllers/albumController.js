@@ -80,11 +80,11 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		const creator = await User.findOne({username: req.session.username}); 
-		console.log(creator, 'creatr------------------------');
-
 		const createdAlbum = await Album.create(req.body);
 		console.log(createdAlbum, 'new album---------------------');
+		const creator = await User.findOne({username: req.session.username}); 
+		console.log(creator, 'creatr------------------------');
+		
 		creator.albums.push(createdAlbum);
 
 		const shelvesToPush = await Shelf.find({
@@ -94,10 +94,11 @@ router.post('/', async (req, res, next) => {
 		});
 		console.log(shelvesToPush, 'shelf-----------------------');
 		shelvesToPush.push(createdAlbum);
-		console.log(creator);
+		
+		await creator.save();
+		console.log(creator, 'post-change -------------------');
+
 		res.redirect('/albums'); 
-
-
 
 	} catch(err){
 		next(err)
