@@ -1,6 +1,6 @@
 const express 	= require('express');
 const app 		= express();
-const PORT 		= 3000;
+const PORT 		= process.env.PORT || 3000;
 const session 	= require('express-session');
 
 require('./db/db');
@@ -74,7 +74,7 @@ app.get('/home', (req, res) => {
 // ************************* PORT SETUP **************************
 
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
 
