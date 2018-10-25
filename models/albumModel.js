@@ -11,10 +11,8 @@ const albumSchema = new mongoose.Schema({
 	info: String,
 	tracklist: [String],
 	genres: [String],
-	comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'LinerNote'}],
+	liner_notes: [LinerNote.schema],
 	liked_by: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-	youtube: String,
-	market: String
 });
 
 module.exports = mongoose.model('Album', albumSchema);

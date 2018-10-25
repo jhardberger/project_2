@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
 });
 
 //new
-router.get('/new', async (req, res, next) => {
+router.get('/new/:id', async (req, res, next) => {
 	
 	try {
 		const data = db.getRelease(10114498, (err, data) => {
