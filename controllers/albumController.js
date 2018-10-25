@@ -91,23 +91,18 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		const creator = await User.findOne({username: req.session.username}); 
-		console.log(creator, 'creatr------------------------');
+		// ---------------------------- UPDATE SHELF ---------------------------- 
 
-		const createdAlbum = await Album.create(req.body);
-		console.log(createdAlbum, 'new album---------------------');
-		console.log(`--------------------- req.body.genres -------------------\n`, req.body.genres);
+		const createdAlbum = await Album.create(req.body);						// Make the album
+	    const updatedShelf 	= await Shelf.findById(req.body.shelf); 			// Find the Shelf
+	    updatedShelf.albums.push(createdAlbum);									// Add to Shelf
 
-		creator.albums.push(createdAlbum);
+		const creator = await User.findOne({username: req.session.username}); 	// Find User
+		creator.albums.push(createdAlbum);										// Add album to User albums
 
-		const shelvesToPush = await Shelf.find({
-			_id: {
-				$in: req.body.shelf
-			}
-		});
-		console.log(shelvesToPush, 'shelf-----------------------');
-		shelvesToPush.push(createdAlbum);
-		console.log(creator);
+		await updatedShelf.save();
+		await creator.save();
+
 		res.redirect('/albums'); 
 
 	} catch(err){

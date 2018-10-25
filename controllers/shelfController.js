@@ -192,7 +192,7 @@ router.put('/:id', async(req, res, next) => {
 
 	    const updatedShelf 	= await Shelf.findById(req.params.id); 	// Find the shelf
 
-	    updatedShelf.title 	= req.body.title							// Update title
+	    updatedShelf.title 	= req.body.title						// Update title
 	    updatedShelf.albums = [];									// Empty shelf albums
 
 	    const desiredAlbums = await Album.find({					// Get desired albums from database

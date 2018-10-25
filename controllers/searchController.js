@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
 	try {
 
 		let ourQuery = req.body.query.split(' ').join('-');
-		console.log(ourQuery, 'our query--------------------------');
+		// console.log(ourQuery, 'our query--------------------------');
 
 		if(req.body.toggle === 'album'){
 			
@@ -44,9 +44,9 @@ router.post('/', async (req, res, next) => {
 					const albumsData = JSON.parse(data.text);
 		            const results = albumsData.results;
 
-					console.log("---------------------------results-----------------------")
-		            console.log(results);
-		            console.log("---------------------------results-----------------------")
+					// console.log("---------------------------results-----------------------")
+		   //          console.log(results);
+		   //          console.log("---------------------------results-----------------------")
 
 
 
@@ -68,9 +68,9 @@ router.post('/', async (req, res, next) => {
 					const albumsData = JSON.parse(data.text);
 		            const results = albumsData.results;
 
-					console.log("---------------------------results-----------------------")
-		            console.log(results);
-		            console.log("---------------------------results-----------------------")
+					// console.log("---------------------------results-----------------------")
+		   //          console.log(results);
+		   //          console.log("---------------------------results-----------------------")
 
 
 

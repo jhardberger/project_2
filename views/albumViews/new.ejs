@@ -22,9 +22,11 @@
 			<br>
 			<h2>Add to Shelves:</h2>
 			<% shelves.forEach((elem, i) => { %>
-					<input type="checkbox" name="shelf" value="<%=elem.id%>"><%=elem.title%><br>
-				<% }) %>
+				<input type="checkbox" name="shelf" value="<%=elem.id%>"><%=elem.title%><br>
+			<% }) %>
+			<br>
 			<input type="submit">
+			<br><br><br><br>
 		</form>
 	</main>
 </body>
