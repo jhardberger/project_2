@@ -99,10 +99,13 @@ router.post('/:id/favorites', async(req, res, next) => {
 
 		const favoriteShelf = await Shelf.findById(req.body.favorite); 			// Find favorited shelf by its id 
 
-		// ----------------------- ADD SHELF TO LOGGED USER'S FAVORITES ----------------------- 
-		// When X favorites a shelf of Y, shelf is added to X's favorites
-
 	    const user = await User.findById(req.session.userId) 										// Find user	  
+
+		// ----------------------- ADD USER TO SHELF'S FAVORITED BY ----------------------- 
+
+		favoriteShelf.liked_by.push(user.id);
+
+		// ----------------------- ADD SHELF TO LOGGED USER'S FAVORITES ----------------------- 
 
 		if (user.favorites.length == 0){															// If user.favorites is empty
 			user.favorites.push(favoriteShelf);														// Add shelf to user favorites
@@ -116,10 +119,11 @@ router.post('/:id/favorites', async(req, res, next) => {
 		};
 
 		// ---------------------------- Save / Redirect ---------------------------- 
-
+		await favoriteShelf.save();
 	    await user.save();	
+		console.log(`-------------------- favoriteShelf --------------------\n`, favoriteShelf);
 
-	    // res.redirect('/auth/register');
+	    res.redirect('/shelves/' + req.body.favorite);
 	} catch(err){
 	    next(err);
 	}

@@ -7,7 +7,7 @@ const shelfSchema = new mongoose.Schema({
 	created_by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 	albums: 	[Album.schema],
 	liked_by: 	[{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-	updated: 	Date
+	updated: 	{type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('Shelf', shelfSchema);

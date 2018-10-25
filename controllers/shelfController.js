@@ -207,14 +207,31 @@ router.put('/:id', async(req, res, next) => {
 
 	    const owner = await User.findOne({'shelves._id': req.params.id});
 
-        owner.shelves.id(req.params.id).remove();	// Remove old shelf from owner
+        owner.shelves.id(req.params.id).remove();				// Remove old shelf from owner
 
-        owner.shelves.push(updatedShelf);			// Add updated shelf to owner
+        owner.shelves.push(updatedShelf);						// Add updated shelf to owner
+
+		// ---------------------------- UPDATE USERS WHO HAVE FAVORITED SHELF ---------------------------- 
+
+	    const favoritedUsers = await User.find({'favorites._id': req.params.id});
+
+
+	    console.log(`-------------favoritedUsers--------------\n`, favoritedUsers);
+
+	    for (let i = 0; i < favoritedUsers.length; i++){
+	    	for (let j = 0; j < favoritedUsers[i].favorites.length; j++){
+        		if (favoritedUsers[i].favorites[j].id === req.params.id){
+					favoritedUsers[i].favorites[j].remove();							// Remove old shelf from user favorites
+					favoritedUsers[i].favorites.push(updatedShelf);						// Add updated shelf to user favorites
+					favoritedUsers[i].save();
+        		}	
+	    	}
+	    };
 
 		// ---------------------------- Save / Redirect ---------------------------- 
-        owner.save();								
+        await owner.save();								
 
-        if (typeof user !== 'undefined'){
+        if (typeof user != 'undefined'){
 	        res.redirect('/users/' + user + '/edit');
         } else {
 	        res.redirect('/auth/login');        	

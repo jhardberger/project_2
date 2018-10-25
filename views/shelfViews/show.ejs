@@ -17,10 +17,20 @@
 		<%}%>
 	</form>
 
+
+
 	<br>
-	Shelf Albums: <% shelf.albums.forEach(album => { %>
-		<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
-	<% }) %>
+	Shelf Albums: 
+	<ul>
+		<% shelf.albums.forEach(album => { %>
+			<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
+		<% }) %>
+	</ul>
+	<br>
+	Favorited by:
+	<ul>
+		
+	</ul>
 
 
 </body>
