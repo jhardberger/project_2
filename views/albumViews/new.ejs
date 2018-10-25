@@ -8,24 +8,29 @@
 	<header>
 		<h1><%=album.title%></h1>
 	</header>
-	<br>
 	<main>
 		<form method="POST" action="/albums/">
-			Title: <p name="title"><%=album.title%><br>
-			Artist: <p name="artist"><%=album.artists[0].name%>,<br>
-			Year: <p name="year"><%=album.released%>,<br>
-			Genres: <p name="genres"><%=album.genres%>,<br>
-			Info:<p name="info"><%=album.notes%>,<br>
+			Title: <input type="text" name="title" value="<%=album.title%>"><br>
+			Artist: <input type="text" name="artist" value="<%=album.artists[0].name%>"><br>
+			Year: <input type="number" name="year" value="<%=album.released%>"><br>
+			Genres: <input type="text" name="genres" value="<%=album.genres%>"><br>
+			Info:<div type="text" name="info" value="<%=album.notes%>"><br>
 			Tracklist: 
-			<ol name="tracklist">
+			<ol>
 				<%album.tracklist.forEach((elem, i) => {%>
 					<li><%=elem.title%></li>
 				<%})%>
 			</ol>
+			<input type="text" name="tracklist" value="<%album.tracklist.forEach((elem, i) => {%>
+				<%=i+1%>. <%=elem.title%> , 
+			<%})%>" hidden>
 			<br>
+			<h2>Add to Shelves:</h2>
+			<% shelves.forEach((elem, i) => { %>
+					<input type="checkbox" name="shelf" value="<%=elem.id%>"><%=elem.title%><br>
+				<% }) %>
 			<input type="submit">
 		</form>
 	</main>
-
 </body>
 </html>

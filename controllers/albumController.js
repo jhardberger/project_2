@@ -5,7 +5,9 @@ const request 	 = require('superagent');
 														//models
 const Album   	 = require('../models/albumModel');
 const LinerNotes = require('../models/linerNoteModel');
-const user 		 = require('../models/userModel');
+const User 		 = require('../models/userModel');
+const Shelf 	 = require('../models/shelfModel.js');
+
 														//discogs
 const disconnect 	= require('disconnect');
 const Discogs 		= require('disconnect').Client;
@@ -19,7 +21,7 @@ router.get('/', async (req, res, next) => {
 	try {
 		const allAlbums = await Album.find({});
 		res.render('albumViews/index.ejs', {
-			albums: allAlbums
+			albums: allAlbums, 
 		});
 	} catch(err){
 		next(err)
@@ -30,27 +32,17 @@ router.get('/', async (req, res, next) => {
 router.get('/new/:id', async (req, res, next) => {
 	
 	try {
+		let releaseId = req.params.id;
+		const creator = await User.findOne({username: req.session.username});
+
 		db.getRelease(releaseId, (err, data) => {
 			console.log(data);
 			res.render('albumViews/new.ejs', {
-				album: data
+				album: data,
+				shelves: creator.shelves
 			});
 		});
-		// request
-		// 	.get('api.discogs.com/releases/' + releaseId + '&token=' + token)
-		// 	.end((err, data) => {
-		// 		if(err){
-		// 			console.log(err);
-		// 		}
-
-		// 		console.log(data);
-		// 		const albumData = JSON.parse(data.text);
-		// 		console.log("---------------------------newXalbum-----------------------")
-		//         console.log(albumData);
-		//         console.log("---------------------------newXalbum-----------------------")			// res.render('albumViews/new.ejs', {
-		// 		// 	album: data
-		// 		// });
-		// 	});
+		
 	}catch(err){
 		next(err)
 	}
@@ -88,12 +80,23 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
+		const creator = await User.findOne({username: req.session.username}); 
+		console.log(creator, 'creatr------------------------');
+
 		const createdAlbum = await Album.create(req.body);
-		console.log(createdAlbum);
-		res.redirect('/albums'); 						//probably want to send this somewhere else
-		// const foundUser = await User.findById(req.body.userId);
-		// foundUser.library.push(createdAlbum)			//NOTE: fix later/work out methodology
-		//	foundUser.save(af)
+		console.log(createdAlbum, 'new album---------------------');
+		creator.albums.push(createdAlbum);
+
+		const shelvesToPush = await Shelf.find({
+			_id: {
+				$in: req.body.shelf
+			}
+		});
+		console.log(shelvesToPush, 'shelf-----------------------');
+		shelvesToPush.push(createdAlbum);
+		console.log(creator);
+		res.redirect('/albums'); 
+
 
 
 	} catch(err){

@@ -9,7 +9,7 @@ const User 		 = require('../models/userModel');
 router.get('/', async (req, res, next) => {
 
 	try {
-		const allNotes = await linerNotes.find({});
+		const allNotes = await LinerNotes.find({});
 		res.render('linerNotesViews/index.ejs', {
 			linerNotes: allNotes
 		});
