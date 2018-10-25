@@ -39,6 +39,7 @@ router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
 	    const spinning = await Album.findById(user.spinning);
+		console.log(user.albums);
 	    res.render('../views/userViews/show.ejs', {
 	    	user,
 	    	spinning,
@@ -121,7 +122,6 @@ router.post('/:id/favorites', async(req, res, next) => {
 		// ---------------------------- Save / Redirect ---------------------------- 
 		await favoriteShelf.save();
 	    await user.save();	
-		console.log(`-------------------- favoriteShelf --------------------\n`, favoriteShelf);
 
 	    res.redirect('/shelves/' + req.body.favorite);
 	} catch(err){

@@ -67,10 +67,14 @@ router.get('/:id', async(req, res, next) => {
 
 	    const shelf 		= await Shelf.findById(req.params.id); 		// Find the shelf
 	    const shelfOwner 	= await User.findById(shelf.created_by); 	// Find its owner (shelf.created_by is an id)
+	    const favoritedBy 	= await User.find({'favorites._id': req.params.id});
+
+	    console.log(`--------------- favoritedBy ----------------`, favoritedBy);
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
 	    	shelfOwner,
+	    	favoritedBy,
 	    	session: req.session
 	    });
 	} catch(err){
@@ -84,9 +88,9 @@ router.get('/:id', async(req, res, next) => {
 router.get('/:id/edit', async(req, res, next) => {
 	try {
 
-    const shelf = await Shelf.findById(req.params.id);
+    const shelf 		= await Shelf.findById(req.params.id);
     const shelfOwner 	= await User.findById(shelf.created_by);
-    const allAlbums = await Album.find({});
+    const allAlbums 	= await Album.find({});
 
 	res.render('../views/shelfViews/edit.ejs', {
 		shelf,
@@ -186,9 +190,9 @@ router.put('/:id', async(req, res, next) => {
 	try {
 		// ---------------------------- UPDATE SHELF ---------------------------- 
 
-	    const updatedShelf = await Shelf.findById(req.params.id); 	// Find the shelf
+	    const updatedShelf 	= await Shelf.findById(req.params.id); 	// Find the shelf
 
-	    updatedShelf.title = req.body.title							// Update title
+	    updatedShelf.title 	= req.body.title							// Update title
 	    updatedShelf.albums = [];									// Empty shelf albums
 
 	    const desiredAlbums = await Album.find({					// Get desired albums from database
@@ -228,8 +232,8 @@ router.put('/:id', async(req, res, next) => {
 		// ---------------------------- Save / Redirect ---------------------------- 
         await owner.save();								
 
-        if (typeof user != 'undefined'){
-	        res.redirect('/users/' + user + '/edit');
+        if (req.session.logged && req.session.userId === owner.id){
+	        res.redirect('/users/' + req.session.userId + '/edit');
         } else {
 	        res.redirect('/auth/login');        	
         }

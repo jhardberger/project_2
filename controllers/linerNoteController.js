@@ -9,7 +9,7 @@ const User 		 = require('../models/userModel');
 router.get('/', async (req, res, next) => {
 
 	try {
-		const allNotes = await linerNotes.find({});
+		const allNotes = await LinerNotes.find({});
 		res.render('linerNotesViews/index.ejs', {
 			linerNotes: allNotes,
 			session: req.session
@@ -54,26 +54,27 @@ router.get('/:id/edit', async (req, res, next) => {
 
 	try {
 		const foundNote = await LinerNotes.findById(req.params.id);
-		const allUsers = await User.find();
+		const allUsers 	= await User.find();
 		const foundUser = await User.findOne({'linerNotes._id': req.params.id});
+		
 		res.render('linerNotesViews/edit.ejs', {
-			linerNote: foundNotes,
-			users: allUsers,
-			user: foundUser,
-			session: req.session
-		});	
+			linerNote: 	foundNote,
+			users: 		allUsers,
+			user: 		foundUser,
+			session: 	req.session
+		});
+
 	} catch(err){
 		next(err)
 	}
 });
 
 //post
-
 router.post('/', async (req, res, next) => {
 	
 	try {
-		const foundUser = await User.findById(req.body.userId);
-		const createdNote = await LinerNotes.create(req.body);
+		const foundUser 	= await User.findById(req.body.userId);
+		const createdNote 	= await LinerNotes.create(req.body);
 		foundUser.linerNotes.push(createdNote);
 		foundUser.save(() => {
 			res.redirect('/linernotes');
@@ -87,8 +88,8 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
 	
 	try {
-		const updatedNote = await LinerNotes.findByIdAndUpdate(req.params.id, req.body, {new: true});
-		const foundUser = await User.findOne({'linerNotes._id': req.params.id});
+		const updatedNote 	= await LinerNotes.findByIdAndUpdate(req.params.id, req.body, {new: true});
+		const foundUser 	= await User.findOne({'linerNotes._id': req.params.id});
 		if(foundUser._id.toString() !== req.body.userId){
 			foundUser.linerNotes.id(req.params.id).remove();
 
@@ -99,7 +100,7 @@ router.put('/:id', async (req, res, next) => {
 					res.redirect('/linernotes')
 				});
 			});
-		}else{
+		} else {
 			foundUser.linerNotes.id(req.params.id).remove();
 			foundUser.linerNotes.push(updatedNote);
 			foundUser.save(() => {
@@ -116,10 +117,10 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
 	
 	try {
-		const deletedNote = await LinerNotes.findByIdAndRemove(req.params.id);
-		const foundUser = User.findOne({'linerNotes._id': req.params.id});
+		const deletedNote 	= await LinerNotes.findByIdAndRemove(req.params.id);
+		const foundUser 	= User.findOne({'linerNotes._id': req.params.id});
 		foundUser.linerNotes.id(req.params.id).remove();
-		foundUser.Save(() => {
+		foundUser.save(() => {
 			res.redirect('/linernotes')
 		});
 	} catch(err){

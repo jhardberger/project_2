@@ -50,10 +50,13 @@ router.get('/new', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 	
 	try {
-		const foundAlbum = await Album.findById(req.params.id);
+		const album = await Album.findById(req.params.id);
+		const linernotes = await LinerNotes.find({album: req.params.id});
+
 		//more tk?
 		res.render('albumViews/show.ejs', {
-			album: foundAlbum,
+			album,
+			linernotes,
 			session: req.session
 		});
 	} catch(err){

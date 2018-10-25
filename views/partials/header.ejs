@@ -8,8 +8,8 @@
 		| | <a href="/home">HOME</a> | | - - - - - 
 
 		<% if (session.logged) { %>
-		| <a href="/users/<%= session.userId %>">My Profile</a>
 		| <a href="/auth/logout">Logout</a>
+		| <a href="/users/<%= session.userId %>"><h4><%=session.username%>: My Profile</h4></a>
 
 		<% } else { %>
 		| <a href="/auth/register">Register</a>

@@ -24,15 +24,16 @@
 	</fieldset>
 	<br>
 	<fieldset>
-		<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>
-		<ul>
+		<% if (session.logged && session.userId === user.id){ %>
+			<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>
+		<%}%>		<ul>
 			<li>Albums: 	
 				<% if (session.logged && session.userId === user.id){ %>
 					<a href="/albums/new">New Album</a>
 				<%}%>
 				<ul>
 					<% user.albums.forEach(album => { %>
-						<li><a href="/albums/<%=album.id%>"><%=album.title%></a></li>
+						<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
 					<% }) %>
 				</ul>
 			</li><br>
@@ -52,7 +53,7 @@
 						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by%>">author</a></li>
 					<% }) %>
 				</ul>
-			</li>
+			</li><br>
 			<li><a href="/users/<%=user._id%>/linernotes">Liner Notes</a>(Later)</li><br>
 		</ul>
 	</fieldset>

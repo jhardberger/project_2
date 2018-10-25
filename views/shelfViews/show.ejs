@@ -29,9 +29,10 @@
 	<br>
 	Favorited by:
 	<ul>
-		
+		<% favoritedBy.forEach(user => { %>
+		<li><a href="/users/<%=user.id%>"><%=user.username%></a>
+		<% }) %>
 	</ul>
-
 
 </body>
 </html>
