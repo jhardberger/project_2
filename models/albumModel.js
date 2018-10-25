@@ -11,7 +11,7 @@ const albumSchema = new mongoose.Schema({
 	info: 		String,
 	tracklist: 	[String],
 	genres: 	[String],
-	liner_notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'LinerNote'}],
+	liner_notes: [LinerNote.schema],
 	liked_by: 	[{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 	youtube: 	String,
 	market: 	String

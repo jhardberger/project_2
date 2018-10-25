@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1>Results</h1>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/albums">Album Index</a></li>
+				<li><a href="/search/">New Search</a></li>
+
+			</ul>
+	</header>
+	<main>
+		<h2>Results: </h2>
+		<ul>
+			<% if (albums.length === 0){%>
+				<p>No results match your search... :( <br><br> <a href="/search/">try again</a>?</p>
+			<%} else {%>
+			<%albums.forEach((elem, i) => {%>
+				<li><a href="/albums/new/<%=elem.id%>"><%=elem.title%></a></li>
+			<%})}%>
+		</ul>
+	</main>
+</body>
+</html>
