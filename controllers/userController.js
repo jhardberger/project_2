@@ -24,7 +24,8 @@ router.get('/', async(req, res, next) => {
 
 	    const allUsers = await User.find({});
 	    res.render('../views/userViews/index.ejs', {
-	    	users: allUsers
+	    	users: allUsers,
+	    	session: req.session
 	    })
 	} catch(err){
 	    next(err);
@@ -37,8 +38,12 @@ router.get('/', async(req, res, next) => {
 router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
+	    const spinning = await Album.findById(user.spinning);
+		console.log(user.albums);
 	    res.render('../views/userViews/show.ejs', {
-	    	user
+	    	user,
+	    	spinning,
+	    	session: req.session
 	    })
 	} catch(err){
 	    next(err);
@@ -64,8 +69,9 @@ router.get('/:id/edit', async(req, res, next) => {
 	try {
 		if (req.session.logged && req.session.username === user.username) {		// If CORRECT user logged on, lead to user's edit page
 		    res.render('../views/userViews/edit.ejs', {
-		    	user: user,
-		    	allGenres: genres
+		    	user,
+		    	allGenres: genres,
+		    	session: req.session
 		    })
 
 		} else {												// If not lead to auth/login page
@@ -87,6 +93,41 @@ router.post('/', async(req, res, next) => {
 	}
 });
 
+// ************************* USER'S FAVORITES CREATE ROUTE *************************
+
+router.post('/:id/favorites', async(req, res, next) => {
+	try {
+
+		const favoriteShelf = await Shelf.findById(req.body.favorite); 			// Find favorited shelf by its id 
+
+	    const user = await User.findById(req.session.userId) 										// Find user	  
+
+		// ----------------------- ADD USER TO SHELF'S FAVORITED BY ----------------------- 
+
+		favoriteShelf.liked_by.push(user.id);
+
+		// ----------------------- ADD SHELF TO LOGGED USER'S FAVORITES ----------------------- 
+
+		if (user.favorites.length == 0){															// If user.favorites is empty
+			user.favorites.push(favoriteShelf);														// Add shelf to user favorites
+
+		} else {																					// If not empty
+			user.favorites.forEach(userFavoriteShelf => {												// Check for duplicates
+				if (user.favorites.findIndex((shelf) => shelf.id == favoriteShelf.id) === -1) {	// If check returned -1 (i.e. no duplicates)
+					user.favorites.push(favoriteShelf);												// Add shelf to favorites
+				}				
+			})
+		};
+
+		// ---------------------------- Save / Redirect ---------------------------- 
+		await favoriteShelf.save();
+	    await user.save();	
+
+	    res.redirect('/shelves/' + req.body.favorite);
+	} catch(err){
+	    next(err);
+	}
+});
 
 // ************************* USER UPDATE ROUTE *************************
 
@@ -101,7 +142,6 @@ router.put('/:id', async(req, res, next) => {
 
 
 // ************************* USER DESTROY ROUTE *************************
-// Same rules as edit
 router.delete('/:id', async(req, res, next) => {
 	try {
 		// Find User
@@ -131,6 +171,27 @@ router.delete('/:id', async(req, res, next) => {
 
 		await user.delete();
 		res.redirect('/users');
+
+	} catch(err){
+	    next(err);
+	}
+});
+
+
+// ************************* USER'S FAVORITES DESTROY ROUTE *************************
+
+router.delete('/:id/favorites/delete', async(req, res, next) => {
+	console.log(`YOOOOOOOOOOOOOOOOOOOOOOOOOOO`);
+	try {
+		const user 		= await User.findById(req.params.id);		// Find User
+
+		console.log(`req.body.deletedShelfId\n`, req.body.deletedShelfId);
+		// Delete shelf from user's favorites
+		user.favorites.id(req.body.deletedShelfId).remove();	
+
+		await user.save();	
+
+		res.redirect('/users/'+ req.params.id +'/edit');
 
 	} catch(err){
 	    next(err);

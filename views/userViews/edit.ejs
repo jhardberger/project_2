@@ -9,7 +9,17 @@
 			Username: <input type="text" name="username" value="<%=user.username%>"><br><br>
 			Password: <input type="password" name="password" value="<%=user.password%>"><br><br>
 			Bio: <input type="text" name="bio" value="<%=user.bio%>"><br><br>
-			Now Spinning: <input type="text" name="spinning" value=""><br><br>
+			Now Spinning: 
+			<select name="spinning">
+				<%user.albums.forEach(album =>{ %>
+					<option value="<%=album.id%>"
+						<% if (user.spinning == album.id) {%>
+						selected="selected"
+						<%}%>
+						><%=album.title%> | <%=album.artist%></option>
+				<%})%>
+			</select>
+			<br/>
 
 			Genres: 
 			<% allGenres.forEach((oneGenre, i) => { %>
@@ -34,7 +44,7 @@
 			Albums: | <a href="/albums/new">New Album</a>
 				<ul> <% user.albums.forEach(oneUserAlbum => { %>
 					<li>
-						Album Title: "..."<%=oneUserAlbum.title%> | 
+						<a href="/albums/<%=oneUserAlbum.id%>"><%=oneUserAlbum.title%></a> | <%=oneUserAlbum.artist%> | 
 						<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
 						<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
 							<button>Delete Album</button>
@@ -52,6 +62,19 @@
 							<a href="/shelves/<%=oneUserShelf.id%>/edit">Edit Shelf</a> | 
 							<form action="/shelves/<%=oneUserShelf.id%>?_method=DELETE" method="POST">
 								<button>Delete Shelf</button>
+							</form>
+						</li>
+						<% } %>
+					<% }) %>
+				</ul>
+			Favorite Shelves:
+				<ul>
+					<% user.favorites.forEach(favoriteShelf => {
+						if (favoriteShelf != null){%>
+						<li>
+							<a href="/shelves/<%=favoriteShelf.id%>"><%=favoriteShelf.title%></a> | 
+							<form action="/users/<%=user.id%>/favorites/delete?_method=DELETE" method="POST">
+								<button name="deletedShelfId" value="<%=favoriteShelf._id%>">Remove Shelf From Favorites</button>
 							</form>
 						</li>
 						<% } %>

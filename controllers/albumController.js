@@ -21,7 +21,8 @@ router.get('/', async (req, res, next) => {
 	try {
 		const allAlbums = await Album.find({});
 		res.render('albumViews/index.ejs', {
-			albums: allAlbums, 
+			albums: allAlbums,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -32,16 +33,21 @@ router.get('/', async (req, res, next) => {
 router.get('/new/:id', async (req, res, next) => {
 	
 	try {
-		let releaseId = req.params.id;
-		const creator = await User.findOne({username: req.session.username});
+		if (req.session.logged){
+			let releaseId = req.params.id;
+			const creator = await User.findOne({username: req.session.username});
 
-		db.getRelease(releaseId, (err, data) => {
-			console.log(data);
-			res.render('albumViews/new.ejs', {
-				album: data,
-				shelves: creator.shelves
+			db.getRelease(releaseId, (err, data) => {
+				console.log(data);
+				res.render('albumViews/new.ejs', {
+					album: data,
+					session: req.session,
+					shelves: creator.shelves
+				});
 			});
-		});
+		} else {
+			res.redirect('/auth/login');
+		}
 		
 	}catch(err){
 		next(err)
@@ -53,10 +59,14 @@ router.get('/new/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
 	
 	try {
-		const foundAlbum = await Album.findById(req.params.id);
+		const album = await Album.findById(req.params.id);
+		const linernotes = await LinerNotes.find({album: req.params.id});
+
 		//more tk?
 		res.render('albumViews/show.ejs', {
-			album: foundAlbum,
+			album,
+			linernotes,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -69,7 +79,8 @@ router.get('/:id/edit', async (req, res, next) => {
 	try {
 	 	const foundAlbum = await Album.findById(req.params.id);
 	 	res.render('albumViews/edit.ejs', {
-	 		album: foundAlbum
+	 		album: foundAlbum,
+	 		session: req.session
 	 	});
 	} catch(err){
 		next(err)
@@ -81,10 +92,11 @@ router.post('/', async (req, res, next) => {
 	
 	try {
 		const createdAlbum = await Album.create(req.body);
-		console.log(createdAlbum, 'new album---------------------');
 		const creator = await User.findOne({username: req.session.username}); 
+
+		console.log(createdAlbum, 'new album---------------------');
 		console.log(creator, 'creatr------------------------');
-		
+
 		creator.albums.push(createdAlbum);
 
 		const shelvesToPush = await Shelf.find({
@@ -92,10 +104,12 @@ router.post('/', async (req, res, next) => {
 				$in: req.body.shelf
 			}
 		});
+
 		console.log(shelvesToPush, 'shelf-----------------------');
 		shelvesToPush.push(createdAlbum);
 		
 		await creator.save();
+		await shelvesToPush.save();
 		console.log(creator, 'post-change -------------------');
 
 		res.redirect('/albums'); 

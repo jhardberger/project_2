@@ -14,6 +14,15 @@
 	<form action="/albums/<%=album.id%>%>/edit">
 		<input type="submit" value="edit">		
 	</form>
+	<br>
+	<br>
+	<form action="/linernotes/<%=linernotes.id%>">
+		<fieldset>
+			<legend>Add Comment:</legend>
+			<textarea type="text" name="body"></textarea>
+			<button>Submit Comment</button>
+		</fieldset>
+	</form>
 
 </body>
 </html>

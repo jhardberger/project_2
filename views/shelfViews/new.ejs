@@ -4,11 +4,19 @@
 		<legend>New Shelf: </legend>
 		<form action="/shelves" method="POST">
 			Title: <input type="text" name="title"><br><br>
-			Albums: <br>
+			All Albums: <br>
 			<% allAlbums.forEach(oneAlbum => { %>
 				<div>
 					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
-					Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%>
+					<%=oneAlbum.title%> | <%=oneAlbum.artist%>
+				</div>
+			<% }) %>
+			<br>
+			User Albums: <br>
+			<% user.albums.forEach(oneAlbum => { %>
+				<div>
+					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
+					<%=oneAlbum.title%> | <%=oneAlbum.artist%>
 				</div>
 			<% }) %>
 			<br>

@@ -16,9 +16,12 @@
 	<main>
 		<h2>Results: </h2>
 		<ul>
+			<% if (albums.length === 0){%>
+				<p>No results match your search... :( <br><br> <a href="/search/">try again</a>?</p>
+			<%} else {%>
 			<%albums.forEach((elem, i) => {%>
-			<li><a href="http://localhost:3000/albums/new/<%=elem.id%>"><%=elem.title%></a></li>
-			<%})%>
+				<li><a href="/albums/new/<%=elem.id%>"><%=elem.title%></a></li>
+			<%})}%>
 		</ul>
 	</main>
 </body>

@@ -20,7 +20,8 @@ router.get('/', async(req, res, next) => {
 
 	    res.render('../views/shelfViews/index.ejs', {
 	    	allShelves,
-	    	users
+	    	users,
+	    	session: req.session
 	    })
 
 	} catch(err){
@@ -33,15 +34,23 @@ router.get('/', async(req, res, next) => {
 
 router.get('/new', async(req, res, next) => { 		
 	try {
-		// For now make all users available (as a drop down for shelves) to have createdBys ?
-	    const allUsers  = await User.find({});
+		// Find user
+	    const user = await User.findById(req.session.userId);
 
-	    // Make albums available (as checkboxes) to add them to shelf ?
+	    // Make albums available (as checkboxes) to add them to shelf
+	    // FOR NOW INSTANTIATED ALBUMS
 	    const allAlbums = await Album.find({});
 
+	    // Make user's albums available to add to shelf
+	    // const userAlbums = [];
+	    // user.albums.forEach(album=>userAlbums.push(album))
+	    console.log(`---------- user ----------\n`, user);
+
 	    res.render('../views/shelfViews/new.ejs', {
-	    	allUsers,
-	    	allAlbums
+	    	// allUsers,
+	    	user,
+	    	allAlbums,
+	    	session: req.session
 	    });
 
 	} catch(err){
@@ -58,10 +67,15 @@ router.get('/:id', async(req, res, next) => {
 
 	    const shelf 		= await Shelf.findById(req.params.id); 		// Find the shelf
 	    const shelfOwner 	= await User.findById(shelf.created_by); 	// Find its owner (shelf.created_by is an id)
+	    const favoritedBy 	= await User.find({'favorites._id': req.params.id});
+
+	    console.log(`--------------- favoritedBy ----------------`, favoritedBy);
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
-	    	shelfOwner
+	    	shelfOwner,
+	    	favoritedBy,
+	    	session: req.session
 	    });
 	} catch(err){
 	    next(err);
@@ -74,14 +88,15 @@ router.get('/:id', async(req, res, next) => {
 router.get('/:id/edit', async(req, res, next) => {
 	try {
 
-    const shelf = await Shelf.findById(req.params.id);
+    const shelf 		= await Shelf.findById(req.params.id);
     const shelfOwner 	= await User.findById(shelf.created_by);
-    const allAlbums = await Album.find({});
+    const allAlbums 	= await Album.find({});
 
 	res.render('../views/shelfViews/edit.ejs', {
 		shelf,
 		shelfOwner,
-		allAlbums
+		allAlbums,
+		session: req.session
 	})
 
 	} catch(err){
@@ -118,6 +133,7 @@ router.post('/', async(req, res, next) => {
 		});
 
 	    const createdShelf = await Shelf.create(shelfToCreate);		// Create Shelf
+	    console.log(createdShelf);
 
 
 		// ----------------------- ADD SHELF TO USER ----------------------- 
@@ -125,6 +141,12 @@ router.post('/', async(req, res, next) => {
 	    const user = await User.findById(createdShelf.created_by._id) 	// Find user
 	   
 	    user.shelves.push(createdShelf);								// Add Shelf to User
+
+	    user.shelves.sort(function(shelfA, shelfB){						// Organize shelves alphanumerically
+		    if(shelfA.title < shelfB.title) {return -1;}
+		    if(shelfA.title > shelfB.title) {return 1;}
+		    return 0;
+		});
 	  
 
 		// ----------------------- ADD ALBUMS TO USER ----------------------- 
@@ -143,6 +165,12 @@ router.post('/', async(req, res, next) => {
 			}
 		});
 
+		user.albums.sort(function(albumA, albumB){						// Organize albums alphanumerically
+			if(albumA.artist < albumB.artist) {return -1;}
+			if(albumA.artist > albumB.artist) {return 1;}
+			return 0;
+		});
+	  
 
 		// ---------------------------- Save / Redirect ---------------------------- 
 
@@ -162,9 +190,9 @@ router.put('/:id', async(req, res, next) => {
 	try {
 		// ---------------------------- UPDATE SHELF ---------------------------- 
 
-	    const updatedShelf = await Shelf.findById(req.params.id); 	// Find the shelf
+	    const updatedShelf 	= await Shelf.findById(req.params.id); 	// Find the shelf
 
-	    updatedShelf.title = req.body.title							// Update title
+	    updatedShelf.title 	= req.body.title							// Update title
 	    updatedShelf.albums = [];									// Empty shelf albums
 
 	    const desiredAlbums = await Album.find({					// Get desired albums from database
@@ -183,14 +211,32 @@ router.put('/:id', async(req, res, next) => {
 
 	    const owner = await User.findOne({'shelves._id': req.params.id});
 
-        owner.shelves.id(req.params.id).remove();	// Remove old shelf from owner
+        owner.shelves.id(req.params.id).remove();				// Remove old shelf from owner
 
-        owner.shelves.push(updatedShelf);			// Add updated shelf to owner
+        owner.shelves.push(updatedShelf);						// Add updated shelf to owner
+
+		// ---------------------------- UPDATE USERS WHO HAVE FAVORITED SHELF ---------------------------- 
+
+	    const favoritedUsers = await User.find({'favorites._id': req.params.id});
+
+	    for (let i = 0; i < favoritedUsers.length; i++){
+	    	for (let j = 0; j < favoritedUsers[i].favorites.length; j++){
+        		if (favoritedUsers[i].favorites[j].id === req.params.id){
+					favoritedUsers[i].favorites[j].remove();							// Remove old shelf from user favorites
+					favoritedUsers[i].favorites.push(updatedShelf);						// Add updated shelf to user favorites
+					favoritedUsers[i].save();
+        		}	
+	    	}
+	    };
 
 		// ---------------------------- Save / Redirect ---------------------------- 
-        owner.save();								
+        await owner.save();								
 
-        res.redirect('/users/' + user + '/edit');
+        if (req.session.logged && req.session.userId === owner.id){
+	        res.redirect('/users/' + req.session.userId + '/edit');
+        } else {
+	        res.redirect('/auth/login');        	
+        }
 
 	} catch(err){
 	    next(err);
@@ -215,6 +261,19 @@ router.delete('/:id', async(req, res, next) => {
 	    const owner = await User.findById(shelfToDestroy.created_by);
 
         owner.shelves.id(req.params.id).remove();
+
+		// ---------------------------- DESTROY SHELVES OF USERS WHO HAVE FAVORITED SHELF ---------------------------- 
+
+	    const favoritedUsers = await User.find({'favorites._id': req.params.id});
+
+	    for (let i = 0; i < favoritedUsers.length; i++){
+	    	for (let j = 0; j < favoritedUsers[i].favorites.length; j++){
+        		if (favoritedUsers[i].favorites[j].id === req.params.id){
+					favoritedUsers[i].favorites[j].remove();							// Remove old shelf from user favorites
+					favoritedUsers[i].save();
+        		}	
+	    	}
+	    };
 
 		// ---------------------------- Save / Redirect ---------------------------- 
         owner.save();

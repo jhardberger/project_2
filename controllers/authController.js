@@ -15,7 +15,10 @@ const genres = ['Blues', 'Brass & Military', 'Children\'s', 'Classical', 'Electr
 
 router.get('/register', (req, res) => {
 	// console.log(`-------------------- req.session REGISTER --------------------\n`, req.session);
-	res.render('authViews/register.ejs', {genres});
+	res.render('authViews/register.ejs', {
+		genres, 
+		session: req.session
+	});
 });
 
 
@@ -36,21 +39,17 @@ router.post('/register', async (req, res, next) => {
 
 		    userDbEntry.username 	= req.body.username;
 		    userDbEntry.bio 		= req.body.bio;
-		    console.log(`-------------------- req.body register --------------------\n`, req.body);
 		    userDbEntry.genres 		= req.body.genres
-
 		    userDbEntry.password 	= password;
 		    // userDbEntry.password = passwordHash;
 
 		    // Put password into database
 		    const createdUser = await User.create(userDbEntry);
 
-		    console.log(`-------------------- userDbEntry REGISTER --------------------\n`, userDbEntry);
-
 	        // Initialize session (attach properties to session middleware, accessible through every route)
 		    req.session.username = req.body.username;
 		    req.session.logged   = true;
-		    console.log(`-------------------- req.session --------------------\n`, req.session);
+		    req.session.userId	 = createdUser.id;
 
 		    res.redirect('/home');
 
@@ -68,7 +67,9 @@ router.post('/register', async (req, res, next) => {
 
 router.get('/login', (req, res) => {
 	// console.log(`-------------------- req.session LOGIN --------------------\n`, req.session);
-	res.render('authViews/login.ejs');
+	res.render('authViews/login.ejs', {
+		session: req.session
+	});
 });
 
 

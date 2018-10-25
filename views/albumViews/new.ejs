@@ -1,20 +1,15 @@
   <% include ../partials/header.ejs %>
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
 	<header>
 		<h1><%=album.title%></h1>
 	</header>
 	<main>
 		<form method="POST" action="/albums/">
-			Title: <input type="text" name="title" value="<%=album.title%>"><br>
+			Title: 	<input type="text" name="title" value="<%=album.title%>"><br>
 			Artist: <input type="text" name="artist" value="<%=album.artists[0].name%>"><br>
-			Year: <input type="number" name="year" value="<%=album.released%>"><br>
+			Year: 	<input type="number" name="year" value="<%=album.released%>"><br>
 			Genres: <input type="text" name="genres" value="<%=album.genres%>"><br>
-			Info:<div type="text" name="info" value="<%=album.notes%>"><br>
+			Styles: <input type="text" name="styles" value="<%=album.styles%>"><br>
+			Info:	<div type="text" name="info" value="<%=album.notes%>"><br>
 			Tracklist: 
 			<ol>
 				<%album.tracklist.forEach((elem, i) => {%>
