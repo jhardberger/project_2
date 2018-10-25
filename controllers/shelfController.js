@@ -20,7 +20,8 @@ router.get('/', async(req, res, next) => {
 
 	    res.render('../views/shelfViews/index.ejs', {
 	    	allShelves,
-	    	users
+	    	users,
+	    	session: req.session
 	    })
 
 	} catch(err){
@@ -33,15 +34,23 @@ router.get('/', async(req, res, next) => {
 
 router.get('/new', async(req, res, next) => { 		
 	try {
-		// For now make all users available (as a drop down for shelves) to have createdBys ?
-	    const allUsers  = await User.find({});
+		// Find user
+	    const user = await User.findById(req.session.userId);
 
-	    // Make albums available (as checkboxes) to add them to shelf ?
+	    // Make albums available (as checkboxes) to add them to shelf
+	    // FOR NOW INSTANTIATED ALBUMS
 	    const allAlbums = await Album.find({});
 
+	    // Make user's albums available to add to shelf
+	    // const userAlbums = [];
+	    // user.albums.forEach(album=>userAlbums.push(album))
+	    console.log(`---------- user ----------\n`, user);
+
 	    res.render('../views/shelfViews/new.ejs', {
-	    	allUsers,
-	    	allAlbums
+	    	// allUsers,
+	    	user,
+	    	allAlbums,
+	    	session: req.session
 	    });
 
 	} catch(err){
@@ -61,7 +70,8 @@ router.get('/:id', async(req, res, next) => {
 
 	    res.render('../views/shelfViews/show.ejs', {
 	    	shelf,
-	    	shelfOwner
+	    	shelfOwner,
+	    	session: req.session
 	    });
 	} catch(err){
 	    next(err);
@@ -81,7 +91,8 @@ router.get('/:id/edit', async(req, res, next) => {
 	res.render('../views/shelfViews/edit.ejs', {
 		shelf,
 		shelfOwner,
-		allAlbums
+		allAlbums,
+		session: req.session
 	})
 
 	} catch(err){
@@ -190,7 +201,11 @@ router.put('/:id', async(req, res, next) => {
 		// ---------------------------- Save / Redirect ---------------------------- 
         owner.save();								
 
-        res.redirect('/users/' + user + '/edit');
+        if (typeof user !== 'undefined'){
+	        res.redirect('/users/' + user + '/edit');
+        } else {
+	        res.redirect('/auth/login');        	
+        }
 
 	} catch(err){
 	    next(err);

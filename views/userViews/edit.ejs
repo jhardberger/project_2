@@ -34,7 +34,7 @@
 			Albums: | <a href="/albums/new">New Album</a>
 				<ul> <% user.albums.forEach(oneUserAlbum => { %>
 					<li>
-						Album Title: "..."<%=oneUserAlbum.title%> | 
+						<a href="/albums/<%=oneUserAlbum.id%>"><%=oneUserAlbum.title%></a> | <%=oneUserAlbum.artist%> | 
 						<a href="/albums/<%=oneUserAlbum.id%>/edit">Edit Album</a> | 
 						<form action="/albums/<%=oneUserAlbum.id%>?_method=DELETE" method="POST">
 							<button>Delete Album</button>

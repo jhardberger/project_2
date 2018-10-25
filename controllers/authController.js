@@ -15,7 +15,10 @@ const genres = ['Blues', 'Brass & Military', 'Children\'s', 'Classical', 'Electr
 
 router.get('/register', (req, res) => {
 	// console.log(`-------------------- req.session REGISTER --------------------\n`, req.session);
-	res.render('authViews/register.ejs', {genres});
+	res.render('authViews/register.ejs', {
+		genres, 
+		session: req.session
+	});
 });
 
 
@@ -68,7 +71,9 @@ router.post('/register', async (req, res, next) => {
 
 router.get('/login', (req, res) => {
 	// console.log(`-------------------- req.session LOGIN --------------------\n`, req.session);
-	res.render('authViews/login.ejs');
+	res.render('authViews/login.ejs', {
+		session: req.session
+	});
 });
 
 

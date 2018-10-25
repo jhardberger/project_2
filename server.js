@@ -49,12 +49,11 @@ app.use(express.static('public')); 	// Add CSS through 'public' directory
 
 // *************** Upcoming feature - Logged user can access their page from any route ****************
 
-// app.use('/', async (req, res, next) => {
-	// console.log(`--------------------- YOYOYO ---------------------`);
-	// console.log(req.body)
-	// console.log(`----------- Custom MiddleWare req.session.userId------------\n`, req.session.userId);
-	// next();	
-// });
+app.use('/', async (req, res, next) => {
+	console.log(`--------------------- Custom MiddleWare req.session ---------------------`);
+	console.log(req.session)
+	next();	
+});
 
 // ************************* Use Controllers **************************
 
@@ -66,10 +65,10 @@ app.use('/auth', authController);
 
 
 app.get('/home', (req, res) => {
-	discogsDb.getRelease(56046, (err, data) => {
-		// console.log(data);
-		res.render('homepage.ejs')
-	})
+	// discogsDb.getRelease(7448549, (err, data) => {
+	// 	console.log(data);
+		res.render('homepage.ejs', {session: req.session})
+	// })
 });
 
 // ************************* PORT SETUP **************************

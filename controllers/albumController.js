@@ -21,7 +21,8 @@ router.get('/', async (req, res, next) => {
 	try {
 		const allAlbums = await Album.find({});
 		res.render('albumViews/index.ejs', {
-			albums: allAlbums
+			albums: allAlbums,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -32,11 +33,12 @@ router.get('/', async (req, res, next) => {
 router.get('/new', async (req, res, next) => {
 	
 	try {
-		const data = db.getRelease(10114498, (err, data) => {
+		const data = db.getRelease(1826455, (err, data) => {
 			console.log(data);
 
 			res.render('albumViews/new.ejs', {
-				album: data
+				album: data,
+				session: req.session
 			});
 		});
 	} catch(err){
@@ -52,6 +54,7 @@ router.get('/:id', async (req, res, next) => {
 		//more tk?
 		res.render('albumViews/show.ejs', {
 			album: foundAlbum,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -64,7 +67,8 @@ router.get('/:id/edit', async (req, res, next) => {
 	try {
 	 	const foundAlbum = await Album.findById(req.params.id);
 	 	res.render('albumViews/edit.ejs', {
-	 		album: foundAlbum
+	 		album: foundAlbum,
+	 		session: req.session
 	 	});
 	} catch(err){
 		next(err)

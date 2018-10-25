@@ -24,7 +24,8 @@ router.get('/', async(req, res, next) => {
 
 	    const allUsers = await User.find({});
 	    res.render('../views/userViews/index.ejs', {
-	    	users: allUsers
+	    	users: allUsers,
+	    	session: req.session
 	    })
 	} catch(err){
 	    next(err);
@@ -38,7 +39,8 @@ router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
 	    res.render('../views/userViews/show.ejs', {
-	    	user
+	    	user,
+	    	session: req.session
 	    })
 	} catch(err){
 	    next(err);
@@ -65,7 +67,8 @@ router.get('/:id/edit', async(req, res, next) => {
 		if (req.session.logged && req.session.username === user.username) {		// If CORRECT user logged on, lead to user's edit page
 		    res.render('../views/userViews/edit.ejs', {
 		    	user: user,
-		    	allGenres: genres
+		    	allGenres: genres,
+		    	session: req.session
 		    })
 
 		} else {												// If not lead to auth/login page

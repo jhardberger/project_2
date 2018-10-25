@@ -11,7 +11,8 @@ router.get('/', async (req, res, next) => {
 	try {
 		const allNotes = await linerNotes.find({});
 		res.render('linerNotesViews/index.ejs', {
-			linerNotes: allNotes
+			linerNotes: allNotes,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -22,7 +23,9 @@ router.get('/', async (req, res, next) => {
 router.get('/new', async (req, res, next) => {
 
 	try {
-		res.render('linerNotesViews/new.ejs')
+		res.render('linerNotesViews/new.ejs', {
+			session: req.session
+		})
 	} catch(err){
 		next(err)
 	}
@@ -38,7 +41,8 @@ router.get('/:id', async (req, res, next) => {
 		console.log(foundNotes);
 		res.render('linerNotesViews/show.ejs', {
 			linerNote: foundNote, 
-			author: foundUser
+			author: foundUser,
+			session: req.session
 		});
 	} catch(err){
 		next(err)
@@ -55,7 +59,8 @@ router.get('/:id/edit', async (req, res, next) => {
 		res.render('linerNotesViews/edit.ejs', {
 			linerNote: foundNotes,
 			users: allUsers,
-			user: foundUser
+			user: foundUser,
+			session: req.session
 		});	
 	} catch(err){
 		next(err)
