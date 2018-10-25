@@ -215,9 +215,6 @@ router.put('/:id', async(req, res, next) => {
 
 	    const favoritedUsers = await User.find({'favorites._id': req.params.id});
 
-
-	    console.log(`-------------favoritedUsers--------------\n`, favoritedUsers);
-
 	    for (let i = 0; i < favoritedUsers.length; i++){
 	    	for (let j = 0; j < favoritedUsers[i].favorites.length; j++){
         		if (favoritedUsers[i].favorites[j].id === req.params.id){
@@ -260,6 +257,19 @@ router.delete('/:id', async(req, res, next) => {
 	    const owner = await User.findById(shelfToDestroy.created_by);
 
         owner.shelves.id(req.params.id).remove();
+
+		// ---------------------------- DESTROY SHELVES OF USERS WHO HAVE FAVORITED SHELF ---------------------------- 
+
+	    const favoritedUsers = await User.find({'favorites._id': req.params.id});
+
+	    for (let i = 0; i < favoritedUsers.length; i++){
+	    	for (let j = 0; j < favoritedUsers[i].favorites.length; j++){
+        		if (favoritedUsers[i].favorites[j].id === req.params.id){
+					favoritedUsers[i].favorites[j].remove();							// Remove old shelf from user favorites
+					favoritedUsers[i].save();
+        		}	
+	    	}
+	    };
 
 		// ---------------------------- Save / Redirect ---------------------------- 
         owner.save();
