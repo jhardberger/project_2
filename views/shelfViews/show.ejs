@@ -1,13 +1,20 @@
 <% include ../partials/header.ejs %>
 
 	<h1><%=shelf.title%></h1>
+
+
 	<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
 
 	<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
 	<br>
 
+	<form action="/users/<%=shelfOwner.id%>/favorites" method="POST">
+		<button name="favorite" value="<%= shelf.id %>">Add to favorites</button>
+	</form>
+
+	<br>
 	Shelf Albums: <% shelf.albums.forEach(album => { %>
-		<li>Title: <%=album.title%> | Artist: <%=album.artist%></li>
+		<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
 	<% }) %>
 
 

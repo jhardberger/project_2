@@ -34,7 +34,14 @@
 					<% }) %>
 				</ul>
 			</li><br>
-			<li>Liner Notes: <%=user.linerNotes%></li><br>
+			<li>Favorite Shelves:
+				<ul>
+					<% user.favorites.forEach(shelf => { %>
+						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by%>">Author</a></li>
+					<% }) %>
+				</ul>
+			</li>
+			<li><a href="/users/<%=user._id%>/linernotes">Liner Notes</a>(Later)</li><br>
 		</ul>
 	</fieldset>
 

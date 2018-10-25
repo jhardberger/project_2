@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
 	bio: 		{type: String},
 	albums: 	[Album.schema],
 	shelves: 	[Shelf.schema],
+	favorites: 	[Shelf.schema],
 	linerNotes: [LinerNote.schema],
 	spinning: 	{type: mongoose.Schema.Types.ObjectId, ref: 'Album'}
 

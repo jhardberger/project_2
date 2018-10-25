@@ -90,6 +90,42 @@ router.post('/', async(req, res, next) => {
 	}
 });
 
+// ************************* USER'S FAVORITES CREATE ROUTE *************************
+
+router.post('/:id/favorites', async(req, res, next) => {
+	try {
+		console.log(`---------- req.body favorites ----------\n`, req.body);
+
+		const favoriteShelf = await Shelf.findById(req.body.favorite); 			// Find favorited shelf by its id 
+
+		console.log(`---------- favorited shelf ----------\n`, favoriteShelf);
+
+		// ----------------------- ADD SHELF TO LOGGED USER'S FAVORITES ----------------------- 
+		// When X favorites a shelf of Y, shelf is added to X's favorites
+
+	    const user = await User.findById(req.session.userId) 										// Find user	  
+
+		if (user.favorites.length == 0){															// If user.favorites is empty
+			user.favorites.push(favoriteShelf);														// Add shelf to user favorites
+
+		} else {																					// If not empty
+			user.favorites.forEach(favoriteShelf => {												// Check for duplicates
+				if (user.favorites.findIndex((shelf) => shelf.id === favoriteShelf.id) === -1) {	// If check returned -1 (i.e. no duplicates)
+					user.favorites.push(favoriteShelf);												// Add shelf to favorites
+				}				
+			})
+		};
+
+		// ---------------------------- Save / Redirect ---------------------------- 
+
+	    await user.save();	
+		console.log(`---------- user ----------\n`, user);
+
+	    // res.redirect('/auth/register');
+	} catch(err){
+	    next(err);
+	}
+});
 
 // ************************* USER UPDATE ROUTE *************************
 
