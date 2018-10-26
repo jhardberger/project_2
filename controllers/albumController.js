@@ -93,21 +93,33 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		// ---------------------------- UPDATE SHELF ---------------------------- 
+		// ---------------------------- 'CREATE' ALBUM / ADD TO SHELF ---------------------------- 
 
 		const createdAlbum = await Album.create(req.body);						// Make the album
-	    const updatedShelf 	= await Shelf.findById(req.body.shelf); 			// Find the Shelf
-	    if (updatedShelf != null){												// If Shelf exists
-		    updatedShelf.albums.push(createdAlbum);								// Add to Shelf
-			await updatedShelf.save();
+	    const foundShelf   = await Shelf.findById(req.body.shelf); 			// Find the Shelf
+	    
+	  //   if (foundShelf != null){												// If Shelf exists
+		 //    foundShelf.albums.push(createdAlbum);								// Add to Shelf
+			// await foundShelf.save();
+	  //   };
+
+	    if (foundShelf != null && foundShelf.length === 0){												// If Shelf exists
+		    foundShelf.albums.push(createdAlbum);								// Add to Shelf
+			await foundShelf.save();
+	    } else {
+	    	foundShelf.albums.forEach(shelfAlbum => {
+	    		if (foundShelf.albums.findIndex((alb) => alb.id === createdAlbum.id) === -1){
+	    			foundShelf.albums.push(createdAlbum);
+	    		}
+	    	});
 	    };
+
 
 		const creator = await User.findOne({username: req.session.username}); 	// Find User
 		if (creator != null){													// If User exists
-			creator.albums.push(createdAlbum);										// Add album to User albums
+			creator.albums.push(createdAlbum);									// Add album to User albums
 			await creator.save();
 		}
-
 
 		res.redirect('/albums'); 
 

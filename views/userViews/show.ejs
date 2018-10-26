@@ -27,10 +27,7 @@
 		<% if (session.logged && session.userId === user.id){ %>
 			<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>
 		<%}%>		<ul>
-			<li>Albums: 	
-				<% if (session.logged && session.userId === user.id){ %>
-					<a href="/albums/new">New Album</a>
-				<%}%>
+			<li>Albums:
 				<ul>
 					<% user.albums.forEach(album => { %>
 						<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
