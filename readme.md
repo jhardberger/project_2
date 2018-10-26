@@ -17,3 +17,6 @@ USER will include the ability to:
 	-visit show pages for artist that will display:
 		-artist info
 		-discography
+
+REPO: https://github.com/jhardberger/project_2
+DEPLOY: https://waxxy.herokuapp.com/home
