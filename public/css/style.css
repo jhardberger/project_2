@@ -1,0 +1,55 @@
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+	font-family: 'Bungee Shade', cursive;
+}
+
+h2 {
+	font-family: 'Bungee', cursive;
+}
+
+.header {
+	background-color: black;
+}
+
+.header form {
+	padding-bottom: 20px; 
+	padding-left: 10px 
+}
+
+#logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 50px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+nav {
+	display: flex;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	justify-content: space-between;
+	background-color: black;
+	color: white;
+	height: 50px;
+}
+
+nav a {
+	text-decoration: none;
+	color: white;
+}
+
+.searchResults img{
+	height: 100px;
+	width: 100px ;
+}
+
+.searchResults {
+	display: flex;
+	margin: 33px;
+}

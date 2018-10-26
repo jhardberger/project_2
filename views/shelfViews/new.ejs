@@ -1,28 +1,34 @@
 <% include ../partials/header.ejs %>
-
-	<fieldset>
-		<legend>New Shelf: </legend>
-		<form action="/shelves" method="POST">
-			Title: <input type="text" name="title"><br><br>
-			All Albums: <br>
-			<% allAlbums.forEach(oneAlbum => { %>
-				<div>
-					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
-					<%=oneAlbum.title%> | <%=oneAlbum.artist%>
-				</div>
-			<% }) %>
-			<br>
-			User Albums: <br>
-			<% user.albums.forEach(oneAlbum => { %>
-				<div>
-					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
-					<%=oneAlbum.title%> | <%=oneAlbum.artist%>
-				</div>
-			<% }) %>
-			<br>
-			<button>Create Shelf</button>
-		</form>
-	</fieldset>
-
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<main>
+		<fieldset>
+			<legend>New Shelf: </legend>
+			<form action="/shelves" method="POST">
+				Title: <input type="text" name="title"><br><br>
+				All Albums: <br>
+				<% allAlbums.forEach(oneAlbum => { %>
+					<div>
+						<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
+						<%=oneAlbum.title%> | <%=oneAlbum.artist%>
+					</div>
+				<% }) %>
+				<br>
+				User Albums: <br>
+				<% user.albums.forEach(oneAlbum => { %>
+					<div>
+						<input type="checkbox" name="albums" value="<%= oneAlbum.id %>">
+						<%=oneAlbum.title%> | <%=oneAlbum.artist%>
+					</div>
+				<% }) %>
+				<br>
+				<button>Create Shelf</button>
+			</form>
+		</fieldset>
+	</main>
 </body>
 </html>

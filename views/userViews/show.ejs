@@ -1,7 +1,7 @@
 <% include ../partials/header.ejs %>
-
-	<h1>Username: <%=user.username%></h1>
-
+	<br>
+	<h1><%=user.username%></h1>
+	<br>
 	<fieldset>
 		<% if (session.logged && session.userId === user.id){ %>
 			<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
@@ -22,7 +22,6 @@
 			<li>Bio: 		<%=user.bio%></li><br>
 		</ul>
 	</fieldset>
-	<br>
 	<fieldset>
 		<% if (session.logged && session.userId === user.id){ %>
 			<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>

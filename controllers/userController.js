@@ -22,9 +22,9 @@ router.get('/', async(req, res, next) => {
 		// await Album.deleteMany();
 		// await LinerNote.deleteMany();
 
-	    const allUsers = await User.find({});
+	    const users = await User.find({});
 	    res.render('../views/userViews/index.ejs', {
-	    	users: allUsers,
+	    	users,
 	    	session: req.session
 	    })
 	} catch(err){
