@@ -6,17 +6,16 @@
 	<title></title>
 </head>
 <body>
-
-	<form action="/albums/<%=album.id%>/edit">
-		<input type="submit" value="edit">		
+	<header>
+		<h1><%=album.title%></h1>
+		<h2><%=album.artist%></h2>
+	</header>
+	<main>
+	<form method="POST" action="/albums/<%=album.id%>/?_method=DELETE">
+		<input type="submit" value="delete">	
 	</form>
 
 	<form action="/linernotes" method="POST">
-		<header>
-			<h1><%=album.title%></h1>
-			<h2><%=album.artist%></h2>
-		</header>
-		<main>
 		<br>
 		<br>
 		<fieldset>
@@ -34,7 +33,6 @@
 			<p><%=allNotes[i].note%></p>
 		</fieldset><br>
 	<% } %>
-
-
+	</main>
 </body>
 </html>

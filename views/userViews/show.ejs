@@ -1,57 +1,58 @@
 <% include ../partials/header.ejs %>
-	<br>
+	</header>
 	<h1><%=user.username%></h1>
-	<br>
-	<fieldset>
-		<% if (session.logged && session.userId === user.id){ %>
-			<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
-		<%}%>
+	</header>
+	<main>
+		<fieldset>
+			<% if (session.logged && session.userId === user.id){ %>
+				<legend><a href="/users/<%=user._id%>/edit">Edit Profile</a></legend>
+			<%}%>
 
-		<ul>
-			<li>Now Spinning: 
-				<% if (spinning !== null){ %>
-					<a href="/albums/<%=spinning.id%>"><%=spinning.title%></a> | <%=spinning.artist%></li><br>
-				<% } %>
-			<li>Genres: 
-				<ul>
-					<% user.genres.forEach(oneGenre => { %>
-						<li><%=oneGenre%></li>
-					<% }) %>
-				</ul>
-			</li><br>
-			<li>Bio: 		<%=user.bio%></li><br>
-		</ul>
-	</fieldset>
-	<fieldset>
-		<% if (session.logged && session.userId === user.id){ %>
-			<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>
-		<%}%>		<ul>
-			<li>Albums:
-				<ul>
-					<% user.albums.forEach(album => { %>
-						<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
-					<% }) %>
-				</ul>
-			</li><br>
-			<li>Shelves: 			
-				<% if (session.logged && session.userId === user.id){ %>
-					<a href="/shelves/new">New Shelf</a>
-				<%}%>
-				<ul>
-					<% user.shelves.forEach(shelf => { %>
-						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a></li>
-					<% }) %>
-				</ul>
-			</li><br>
-			<li>Favorite Shelves:
-				<ul>
-					<% userFavorites.forEach(shelf => {%>
-						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by._id%>"><%= shelf.created_by.username%></a></li>
-					<% }) %>
-				</ul>
-			</li><br>
-		</ul>
-	</fieldset>
-
+			<ul>
+				<li>Now Spinning: 
+					<% if (spinning !== null){ %>
+						<a href="/albums/<%=spinning.id%>"><%=spinning.title%></a> | <%=spinning.artist%></li><br>
+					<% } %>
+				<li>Genres: 
+					<ul>
+						<% user.genres.forEach(oneGenre => { %>
+							<li><%=oneGenre%></li>
+						<% }) %>
+					</ul>
+				</li><br>
+				<li>Bio: 		<%=user.bio%></li><br>
+			</ul>
+		</fieldset>
+		<fieldset>
+			<% if (session.logged && session.userId === user.id){ %>
+				<legend><a href="/users/<%=user._id%>/edit">Edit Library</a></legend>
+			<%}%>		<ul>
+				<li>Albums:
+					<ul>
+						<% user.albums.forEach(album => { %>
+							<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
+						<% }) %>
+					</ul>
+				</li><br>
+				<li>Shelves: 			
+					<% if (session.logged && session.userId === user.id){ %>
+						<a href="/shelves/new">New Shelf</a>
+					<%}%>
+					<ul>
+						<% user.shelves.forEach(shelf => { %>
+							<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a></li>
+						<% }) %>
+					</ul>
+				</li><br>
+				<li>Favorite Shelves:
+					<ul>
+						<% userFavorites.forEach(shelf => {%>
+							<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by._id%>"><%= shelf.created_by.username%></a></li>
+						<% }) %>
+					</ul>
+				</li><br>
+			</ul>
+		</fieldset>
+	</main>
 </body>
 </html>
