@@ -114,7 +114,6 @@ router.post('/', async (req, res, next) => {
 
 	    };
 
-
 		// ---------------------------- ADD TO USER'S ALBUMS ---------------------------- 
 		
 		if (creator.albums.length === 0){													// If User exists
