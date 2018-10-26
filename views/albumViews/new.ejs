@@ -10,8 +10,7 @@
 			Artist: <input type="text" name="artist" value="<%=album.artists[0].name%>"><br>
 			Year: 	<input type="number" name="year" value="<%=album.released%>"><br>
 			Genres: <input type="text" name="genres" value="<%=album.genres%>"><br>
-			Styles: <input type="text" name="styles" value="<%=album.styles%>"><br>
-			Info:	<div type="text" name="info" value="<%=album.notes%>"><br>
+			Discogs Info:	<div type="text" name="info" value="<%=album.notes%>"><br>
 			Tracklist: 
 			<ol>
 				<%album.tracklist.forEach((elem, i) => {%>

@@ -44,3 +44,12 @@ nav a {
 	color: white;
 }
 
+.searchResults img{
+	height: 100px;
+	width: 100px ;
+}
+
+.searchResults {
+	display: flex;
+	margin: 33px;
+}

@@ -38,7 +38,7 @@ router.get('/new/:id', async (req, res, next) => {
 			const creator = await User.findOne({username: req.session.username});
 
 			db.getRelease(releaseId, (err, data) => {
-				console.log(data);
+				console.log(data, 'album data------');
 				res.render('albumViews/new.ejs', {
 					album: data,
 					session: req.session,
@@ -135,12 +135,12 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
 	console.log("HEY HEY HEY HEY HEY HEY HEY HEY delete album route hit! for:" + req.params.id);
 	try {
-		const deletedAlbum = await Album.findByIdAndRemove(req.params.id, () => {
-			res.redirect('/albums')
+		const deletedAlbum = await Album.findByIdAndRemove(req.params.id);
+		const creator = await User.findOne({username: req.session.username}); 
+		creator.albums.id(req.params.id).remove();
+		creator.save(() => {
+			res.redirect('/albums/')
 		});
-		// const foundUser = await User.findOne({'albums._id': req.params.id});
-		// foundUser.albums.id(req.params.id).remove();
-		// foundUser.save(af)
 	} catch(err){
 		next(err)
 	}		
