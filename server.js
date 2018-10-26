@@ -26,7 +26,7 @@ const linerNoteController 	= require('./controllers/linerNoteController.js');
 const searchController 	= require('./controllers/searchController.js');
 
 // ************************* Use MiddleWare **************************
-
+app.use(express.static('public'));
 app.use(session({
 	secret: 'Our random secret string?',
 	resave: false,

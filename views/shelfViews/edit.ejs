@@ -1,34 +1,38 @@
 <% include ../partials/header.ejs %>
-
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
 	<h1><%=shelf.title%></h1>
 	<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
-
-	<br>
-
-	<fieldset>
-		<legend>Edit Shelf: </legend>
-		<form action="/shelves/<%=shelf.id%>?_method=PUT" method="POST">
-			Title: <input type="text" name="title" value="<%=shelf.title%>"><br><br>
-			Albums: <br>
-			<% allAlbums.forEach(oneAlbum => { %>
-				<div>
-					<input type="checkbox" name="albums" value="<%= oneAlbum.id %>"
-				        <% if(shelf.albums.find(album => album.id == oneAlbum.id) != undefined) { %>
-				          checked
-				        <% } %>
-					>
-					Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%>
-				</div>
-			<% }) %>
-			<br>
-			<button>Update Shelf</button>
+	</header>
+	<main>
+		<fieldset>
+			<legend>Edit Shelf: </legend>
+			<form action="/shelves/<%=shelf.id%>?_method=PUT" method="POST">
+				Title: <input type="text" name="title" value="<%=shelf.title%>"><br><br>
+				Albums: <br>
+				<% allAlbums.forEach(oneAlbum => { %>
+					<div>
+						<input type="checkbox" name="albums" value="<%= oneAlbum.id %>"
+					        <% if(shelf.albums.find(album => album.id == oneAlbum.id) != undefined) { %>
+					          checked
+					        <% } %>
+						>
+						Album Title: <%=oneAlbum.title%> | Album Artist: <%=oneAlbum.artist%>
+					</div>
+				<% }) %>
+				<br>
+				<button>Update Shelf</button>
+			</form>
+		</fieldset>
+		<br>
+		<form action="/shelves/<%=shelf.id%>?_method=DELETE" method="POST">
+			<button>Delete Shelf</button>
 		</form>
-	</fieldset>
-	<br>
-	<form action="/shelves/<%=shelf.id%>?_method=DELETE" method="POST">
-		<button>Delete Shelf</button>
-	</form>
-
-
+	</main>
 </body>
 </html>

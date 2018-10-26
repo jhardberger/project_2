@@ -1,24 +1,33 @@
 <% include ../partials/header.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>
+		<h1>Shelves</h1>
+	</header>
+	<main>
+		<ul> 
+			<% allShelves.forEach(shelf => { %>
 
-	<h2>Shelves</h2>
-	<ul> 
-		<% allShelves.forEach(shelf => { %>
+				<li>
+					<a href="/shelves/<%=shelf.id%>"><i><%=shelf.title%></i></a> | 
+					
+					<% users.forEach(user => { %>
+						<% if (shelf.created_by == user.id) {%>
+							<a href="/users/<%=user.id%>"><%=user.username%></a>
+						<%}%>
+					<% }) %>
 
-			<li>
-				<a href="/shelves/<%=shelf.id%>"><i><%=shelf.title%></i></a> | 
-				
-				<% users.forEach(user => { %>
-					<% if (shelf.created_by == user.id) {%>
-						<a href="/users/<%=user.id%>"><%=user.username%></a>
-					<%}%>
-				<% }) %>
+					<form action="/shelves/<%=shelf.id%>?_method=DELETE" method="POST">
+						<button>Delete Shelf</button>
+					</form>
+				</li>
 
-				<form action="/shelves/<%=shelf.id%>?_method=DELETE" method="POST">
-					<button>Delete Shelf</button>
-				</form>
-			</li>
-
-		<%})%>
-	</ul>
+			<%})%>
+		</ul>
+	</main>
 </body>
 </html>

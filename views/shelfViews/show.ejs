@@ -1,38 +1,44 @@
 <% include ../partials/header.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<header>	
+		<h1><%=shelf.title%></h1>
 
-	<h1><%=shelf.title%></h1>
+		<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
 
-
-	<h4>Created by: <a href="/users/<%=shelfOwner.id%>"><%=shelfOwner.username%></a></h4>
-
-	<% if (session.logged && session.userId === shelfOwner.id){ %>
-		<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
-	<%}%>
-
-	<br>
-
-	<form action="/users/<%=shelfOwner.id%>/favorites" method="POST">
-		<% if (session.logged && session.userId !== shelfOwner.id){ %>
-			<button name="favorite" value="<%= shelf.id %>">Add to favorites</button>
+		<% if (session.logged && session.userId === shelfOwner.id){ %>
+			<a href="/shelves/<%=shelf.id%>/edit">Edit Shelf</a><br>
 		<%}%>
-	</form>
+
+	</header>
+	<main>
+
+		<form action="/users/<%=shelfOwner.id%>/favorites" method="POST">
+			<% if (session.logged && session.userId !== shelfOwner.id){ %>
+				<button name="favorite" value="<%= shelf.id %>">Add to favorites</button>
+			<%}%>
+		</form>
 
 
 
-	<br>
-	Shelf Albums: 
-	<ul>
-		<% shelf.albums.forEach(album => { %>
-			<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
-		<% }) %>
-	</ul>
-	<br>
-	Favorited by:
-	<ul>
-		<% favoritedBy.forEach(user => { %>
-		<li><a href="/users/<%=user.id%>"><%=user.username%></a>
-		<% }) %>
-	</ul>
-
+		<br>
+		Shelf Albums: 
+		<ul>
+			<% shelf.albums.forEach(album => { %>
+				<li><a href="/albums/<%=album.id%>"><%=album.title%></a> | <%=album.artist%></li>
+			<% }) %>
+		</ul>
+		<br>
+		Favorited by:
+		<ul>
+			<% favoritedBy.forEach(user => { %>
+			<li><a href="/users/<%=user.id%>"><%=user.username%></a>
+			<% }) %>
+		</ul>
+	</main>
 </body>
 </html>

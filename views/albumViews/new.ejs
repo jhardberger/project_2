@@ -3,7 +3,9 @@
 		<h1><%=album.title%></h1>
 	</header>
 	<main>
+		<img src="<%=album.cover_image%>">
 		<form method="POST" action="/albums/">
+			<input type="string" name="cover" value="<%=album.cover_image%>" hidden>
 			Title: 	<input type="text" name="title" value="<%=album.title%>"><br>
 			Artist: <input type="text" name="artist" value="<%=album.artists[0].name%>"><br>
 			Year: 	<input type="number" name="year" value="<%=album.released%>"><br>

@@ -2,35 +2,38 @@
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Bungee|Bungee+Shade|Montserrat" rel="stylesheet">
 </head>
 <body>
+	<div class="header">
 	<nav>
-		| | <a href="/home">HOME</a> | | - - - - - 
+		<div>
+			<a href="/home">HOME</a>
 
-		<% if (session.logged) { %>
-			| <a href="/auth/logout">Logout</a>
-			| <a href="/users/<%= session.userId %>"><h4><%=session.username%>: My Profile</h4></a>
-		<% } else { %>
-			| <a href="/auth/register">Register</a>
-			| <a href="/auth/login">Login</a>
-		<% } %>
-		
-		<br><br>
-
-		<a href="/users">All Users</a>
-		| <a href="/shelves">All Shelves</a>
-		| <a href="/albums">All Albums</a>
-		| <a href="/linerNotes">All LinerNotes</a><br><br>
-		<a href="/search">Search</a>
+			<% if (session.logged) { %>
+				| <a href="/auth/logout">Logout</a>
+				| <a href="/users/<%= session.userId %>"><h4><%=session.username%>: My Profile</h4></a>
+			<% } else { %>
+				| <a href="/auth/register">Register</a>
+				| <a href="/auth/login">Login</a>
+			<% } %>
+		</div>
+	<h1 id="logo">W a x x y</h1>
+		<div>
+			<a href="/users">All Users</a>
+			| <a href="/shelves">All Shelves</a>
+			| <a href="/albums">All Albums</a>
+			| <a href="/linerNotes">All LinerNotes</a><br>
+		</div>
 	</nav>
 	<br>
 	<form method="POST" action="/search/">
-		<input type="text" name="query" placeholder="Search...">
+		<input type="text" name="query" placeholder="Add a new album...">
 		<select name="toggle">
 			<option value="album">Album</option>
 			<option value="artist">Artist</option>
 		</select>
 		<input type="submit">
 	</form>
-	<br>
+	</div>
