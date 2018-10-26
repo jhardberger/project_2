@@ -93,35 +93,43 @@ router.get('/:id/edit', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	
 	try {
-		// ---------------------------- 'CREATE' ALBUM / ADD TO SHELF ---------------------------- 
+		// ---------------------------- 'CREATE' ALBUM ---------------------------- 
 
-		const createdAlbum = await Album.create(req.body);						// Make the album
-	    const foundShelf   = await Shelf.findById(req.body.shelf); 			// Find the Shelf
+		const createdAlbum = await Album.create(req.body);									// Make the album
+	    const foundShelf   = await Shelf.findById(req.body.shelf); 							// Find the Shelf
+		const creator = await User.findOne({username: req.session.username}); 				// Find User
 	    
-	  //   if (foundShelf != null){												// If Shelf exists
-		 //    foundShelf.albums.push(createdAlbum);								// Add to Shelf
-			// await foundShelf.save();
-	  //   };
+		// ---------------------------- ADD TO SHELF ---------------------------- 
 
-	    if (foundShelf != null && foundShelf.length === 0){												// If Shelf exists
-		    foundShelf.albums.push(createdAlbum);								// Add to Shelf
-			await foundShelf.save();
-	    } else {
+	    if (foundShelf != null && foundShelf.albums.length === 0){							// If Shelf has no albums
+		    foundShelf.albums.push(createdAlbum);											// Add to Shelf
+			await foundShelf.save();														// Save Shelf
+	    } else if (foundShelf != null){
 	    	foundShelf.albums.forEach(shelfAlbum => {
-	    		if (foundShelf.albums.findIndex((alb) => alb.id === createdAlbum.id) === -1){
+	    		if (foundShelf.albums.findIndex(alb => alb.id === createdAlbum.id) === -1){ // Avoid duplicates
 	    			foundShelf.albums.push(createdAlbum);
 	    		}
 	    	});
+			await foundShelf.save();														// Save Shelf
+
 	    };
 
 
-		const creator = await User.findOne({username: req.session.username}); 	// Find User
-		if (creator != null){													// If User exists
-			creator.albums.push(createdAlbum);									// Add album to User albums
-			await creator.save();
-		}
+		// ---------------------------- ADD TO USER'S ALBUMS ---------------------------- 
+		
+		if (creator.albums.length === 0){													// If User exists
+			creator.albums.push(createdAlbum);												// Add album to User albums
+		} else {
+			creator.albums.forEach(userAlbum => {
+				if (creator.albums.findIndex(alb => alb.id === createdAlbum.id) === -1){
+					creator.albums.push(createdAlbum);
+				}
+			})
+		};
 
-		res.redirect('/albums'); 
+		await creator.save();
+
+		res.redirect('/users/' + req.session.userId); 
 
 	} catch(err){
 		next(err)
@@ -148,7 +156,7 @@ router.delete('/:id', async (req, res, next) => {
 		const creator = await User.findOne({username: req.session.username}); 
 		creator.albums.id(req.params.id).remove();
 		creator.save(() => {
-			res.redirect('/albums/')
+			res.redirect('/users/' + req.session.userId + '/edit');
 		});
 	} catch(err){
 		next(err)
