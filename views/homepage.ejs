@@ -1,24 +1,31 @@
   <% include ./partials/header.ejs %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		@import url(https://fonts.googleapis.com/css?family=Advent+Pro:100);
+		body { 
+			background:  url(https://media.giphy.com/media/gKgAAbh9PoEuc/giphy.gif) no-repeat center center fixed; 
+  			background-size: cover;
+		}
+		header {
+			z-index: 1; 
+			background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+		}
+		body {
+			z-index: 0;
+		}
 
-	<h1>WAXXY - Home</h1> 
-
-
-	My Profile:<br>
-		- Profile link (or login)<br>
-	<br><br>
-	Popular Albums:<br>
-		- Album Title | Artist<br>
-		- ...<br>
-		<br><br>
-	Popular Shelves: <br>
-		- Shelf Title | Shelf Creator<br>
-		- ...<br>
-	<br><br>
-	Random: <br>
-		- ...<br>
-		- ...<br>
-
-	
-
+	</style>
+</head>
+<body>
+	<header>
+		<br>
+		<br>
+	</header>
 </body>
 </html>
