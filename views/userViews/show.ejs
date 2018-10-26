@@ -49,12 +49,11 @@
 			</li><br>
 			<li>Favorite Shelves:
 				<ul>
-					<% user.favorites.forEach(shelf => { %>
-						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by%>">author</a></li>
+					<% userFavorites.forEach(shelf => {%>
+						<li><a href="/shelves/<%=shelf.id%>"><%=shelf.title%></a> | <a href="/users/<%=shelf.created_by._id%>"><%= shelf.created_by.username%></a></li>
 					<% }) %>
 				</ul>
 			</li><br>
-			<li><a href="/users/<%=user._id%>/linernotes">Liner Notes</a>(Later)</li><br>
 		</ul>
 	</fieldset>
 

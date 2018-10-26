@@ -38,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
 		const foundNote = await LinerNotes.findById(req.params.id);
 		const foundUser = await User.findOne({'linerNotes._id': req.params.id});
 		console.log(foundUser);
-		console.log(foundNotes);
+		console.log(foundNote);
 		res.render('linerNotesViews/show.ejs', {
 			linerNote: foundNote, 
 			author: foundUser,
@@ -78,20 +78,23 @@ router.post('/', async (req, res, next) => {
 		const noteToCreate = {
 			author: 	req.session.userId,
 			note: 		req.body.note,
-			album: 		req.body.album,
+			album: 		req.body.albumId
 		}
 
-		const createdNote 	= await LinerNotes.create(noteToCreate); 	// Create note
+		const createdNote 	= await LinerNotes.create(noteToCreate);
+
 		const author 		= await User.findById(req.session.userId); 	// Find user
+
 		console.log(` -------------------- commentedAlbum -------------------- \n`, commentedAlbum);
 		console.log(` -------------------- createdNote -------------------- \n`, createdNote);
 		console.log(` -------------------- author -------------------- \n`, author);
 		
-		// author.linerNotes.push(createdNote);							// Add note to user
+		await createdNote.save();
 
-		// author.save(() => {
-			// res.redirect('/linernotes');
-		// })
+		author.linerNotes.push(createdNote);							// Add note to user
+		await author.save();
+
+		res.redirect('/albums/' + req.body.albumId);
 	} catch(err){
 		next(err)
 	}

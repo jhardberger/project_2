@@ -60,12 +60,14 @@ router.get('/:id', async (req, res, next) => {
 	
 	try {
 		const album = await Album.findById(req.params.id);
-		const linernotes = await LinerNotes.find({album: req.params.id});
+		const allNotes = await LinerNotes.find({'album': req.params.id}).populate('author');
+
+		console.log(`----------------allNotes-----------------------\n`, allNotes);
 
 		//more tk?
 		res.render('albumViews/show.ejs', {
 			album,
-			linernotes,
+			allNotes,
 			session: req.session
 		});
 	} catch(err){
@@ -95,13 +97,17 @@ router.post('/', async (req, res, next) => {
 
 		const createdAlbum = await Album.create(req.body);						// Make the album
 	    const updatedShelf 	= await Shelf.findById(req.body.shelf); 			// Find the Shelf
-	    updatedShelf.albums.push(createdAlbum);									// Add to Shelf
+	    if (updatedShelf != null){												// If Shelf exists
+		    updatedShelf.albums.push(createdAlbum);								// Add to Shelf
+			await updatedShelf.save();
+	    };
 
 		const creator = await User.findOne({username: req.session.username}); 	// Find User
-		creator.albums.push(createdAlbum);										// Add album to User albums
+		if (creator != null){													// If User exists
+			creator.albums.push(createdAlbum);										// Add album to User albums
+			await creator.save();
+		}
 
-		await updatedShelf.save();
-		await creator.save();
 
 		res.redirect('/albums'); 
 

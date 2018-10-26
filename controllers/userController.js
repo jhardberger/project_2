@@ -39,14 +39,21 @@ router.get('/:id', async(req, res, next) => {
 	try {
 	    const user = await User.findById(req.params.id);
 	    const spinning = await Album.findById(user.spinning);
-
 	    const userFavorites = await Shelf.find({'liked_by': req.session.userId}).populate('created_by');
+	    const userNotes = await LinerNote.find({'author[0]': req.session.userId});
 
-	    console.log(`---------- userFavorites ----------\n`, userFavorites);
+	    // userNotes.forEach(note => {note.populate('author')});
+
+	    // console.log(`---------- user ----------\n`, user);
+	    // console.log(`---------- userFavorites ----------\n`, userFavorites);
+	    // console.log(`---------- user.linerNotes[0] ----------\n`, user.linerNotes[0]);
+	    // console.log(`---------- userNotes ----------\n`, userNotes);
 
 	    res.render('../views/userViews/show.ejs', {
 	    	user,
 	    	spinning,
+	    	userFavorites,
+	    	userNotes,
 	    	session: req.session
 	    })
 	} catch(err){
