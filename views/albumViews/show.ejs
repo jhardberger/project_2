@@ -11,6 +11,7 @@
 		<h2><%=album.artist%></h2>
 	</header>
 	<main>
+	<img src="<%=album.cover_image%>">
 	<form method="POST" action="/albums/<%=album.id%>/?_method=DELETE">
 		<input type="submit" value="delete">	
 	</form>
@@ -19,9 +20,9 @@
 		<br>
 		<br>
 		<fieldset>
-			<legend>Add Comment:</legend>
+			<legend>Your Comment:</legend>
 			<input name="albumId" value="<%=album.id%>" hidden></input>
-			<textarea type="text" name="note"></textarea>
+			<textarea type="text" name="note"></textarea><br>
 			<button>Submit Comment</button>
 		</fieldset>
 	</form>

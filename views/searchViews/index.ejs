@@ -15,9 +15,22 @@
 				<p>No results match your search... :( <br><br> <a href="/search/">try again</a>?</p>
 			<%} else {%>
 			<%albums.forEach((elem, i) => {%>
-				<div class="searchResults"><a href="/albums/new/<%=elem.id%>">
+
+				<div class="searchResults">
+					<a href="/albums/new/<%=elem.id%>">
 					<img src="<%=elem.cover_image%>"><br>
-					<%=elem.title%> | <%=elem.artist%></a></div>
+					<%=elem.title%></a>
+				</div>
+
+				<div class="searchResults">
+					<form action="/albums/new/<%=elem.id%>" method="GET">
+						<a href="/albums/new/<%=elem.id%>">
+						<img src="<%=elem.cover_image%>"><br>
+						<%=elem.title%>
+						</a>
+						<input type="submit" name="cover" value="<%=elem.cover_image%>" hidden>
+					</form>
+				</div>
 			<%})}%>
 		</ul>
 	</main>
