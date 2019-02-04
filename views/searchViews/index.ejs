@@ -10,7 +10,7 @@
 	</header>
 	<main>
 		<h2>Results: </h2>
-		<ul>
+		<div class="container">
 			<% if (albums.length === 0){%>
 				<p>No results match your search... :( <br><br> <a href="/search/">try again</a>?</p>
 			<%} else {%>
@@ -20,6 +20,7 @@
 					<%=elem.title%> | <%=elem.artist%></a></div>
 			<%})}%>
 		</ul>
+		</div>
 	</main>
 </body>
 </html>
