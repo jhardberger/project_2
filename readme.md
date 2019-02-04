@@ -16,5 +16,6 @@ A user can:
 		-artist info
 		-discography
 
-**BUILT WITH**: Charlotte Prevost, https://github.com/charlotteprevost
+(Built with Charlotte Prevost, https://github.com/charlotteprevost)
+
 **DEMO**: https://waxxy.herokuapp.com/home
