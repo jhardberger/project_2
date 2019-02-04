@@ -36,13 +36,15 @@ router.get('/new/:id', async (req, res, next) => {
 		if (req.session.logged){
 			let releaseId = req.params.id;
 			const creator = await User.findOne({username: req.session.username});
+			console.log(`-----------------req.body.cover----------------\n`, req.body.cover);
 
 			db.getRelease(releaseId, (err, data) => {
 				console.log(data, 'album data------');
 				res.render('albumViews/new.ejs', {
-					album: data,
+					album: 	 data,
 					session: req.session,
-					shelves: creator.shelves
+					shelves: creator.shelves,
+					cover: 	 req.body.cover
 				});
 			});
 		} else {
@@ -96,6 +98,7 @@ router.post('/', async (req, res, next) => {
 		// ---------------------------- 'CREATE' ALBUM ---------------------------- 
 
 		const createdAlbum = await Album.create(req.body);									// Make the album
+		console.log(`----------------- createdAlbum --------------------\n`, createdAlbum);
 	    const foundShelf   = await Shelf.findById(req.body.shelf); 							// Find the Shelf
 		const creator = await User.findOne({username: req.session.username}); 				// Find User
 	    
@@ -113,7 +116,6 @@ router.post('/', async (req, res, next) => {
 			await foundShelf.save();														// Save Shelf
 
 	    };
-
 
 		// ---------------------------- ADD TO USER'S ALBUMS ---------------------------- 
 		

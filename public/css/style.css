@@ -57,3 +57,8 @@ nav a {
 	display: flex;
 	margin: 33px;
 }
+
+textarea {
+	width: 500px;
+	height: 200px
+}
